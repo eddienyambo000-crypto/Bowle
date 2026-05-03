@@ -1,0 +1,2093 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BOWLÉ — Fresh Salads · Rice Bowls · Pasta Bowls · Nyarutarama, Kigali</title>
+  <meta name="description" content="BOWLÉ Kigali — build your perfect bowl your way. Fresh salads, rice bowls & pasta bowls. Nyarutarama, Kigali. Fresh · Fast · Flavorful.">
+  <meta name="theme-color" content="#1B4332">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;1,700;1,800&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/vanilla-tilt@1.8.1/dist/vanilla-tilt.min.js"></script>
+  <style>
+    :root {
+      --green: #1B4332;
+      --green2: #2D6A4F;
+      --green3: #40916C;
+      --cream: #F5EDD8;
+      --cream2: #EDE0C4;
+      --ivory: #FAFAF5;
+      --white: #FFFFFF;
+      --text: #1B4332;
+      --muted: #5C7A68;
+      --border: rgba(27,67,50,0.12);
+      --glow: rgba(27,67,50,0.15);
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body {
+      background: var(--cream);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* grain */
+    body::after {
+      content: '';
+      position: fixed; inset: 0; pointer-events: none; z-index: 9998;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    }
+
+    /* scroll progress */
+    #progress { position: fixed; top: 0; left: 0; height: 3px; z-index: 9999; background: var(--green3); width: 0%; transition: width 0.1s linear; }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      transition: background 0.4s, border-color 0.4s, backdrop-filter 0.4s;
+      border-bottom: 1px solid transparent;
+    }
+    nav.scrolled {
+      background: rgba(245,237,216,0.95);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-color: var(--border);
+    }
+    .nav-inner {
+      max-width: 1240px; margin: 0 auto; padding: 0 32px;
+      height: 72px; display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem; font-weight: 800; color: var(--green);
+      text-decoration: none; letter-spacing: 0.02em;
+    }
+    .nav-logo span { font-style: italic; }
+    .nav-links { display: flex; align-items: center; gap: 36px; }
+    .nav-link {
+      font-size: 0.88rem; font-weight: 600; color: var(--muted);
+      text-decoration: none; letter-spacing: 0.04em;
+      transition: color 0.2s;
+    }
+    .nav-link:hover { color: var(--green); }
+    .nav-order {
+      background: var(--green); color: var(--cream);
+      padding: 10px 22px; border-radius: 100px;
+      font-size: 0.82rem; font-weight: 700; text-decoration: none;
+      letter-spacing: 0.05em; display: flex; align-items: center; gap: 8px;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .nav-order:hover { background: var(--green2); transform: scale(1.03); }
+    .hamburger {
+      display: none; background: none; border: none; cursor: pointer;
+      color: var(--green); padding: 4px;
+    }
+
+    /* mobile menu */
+    #mob-menu {
+      position: fixed; inset: 0; z-index: 1100;
+      background: var(--green);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 36px;
+      transform: translateX(100%); transition: transform 0.45s cubic-bezier(0.16,1,0.3,1);
+    }
+    #mob-menu.open { transform: translateX(0); }
+    #mob-menu .nav-link { color: var(--cream); font-size: 1.4rem; letter-spacing: 0.06em; }
+    #mob-menu .nav-order { background: var(--cream); color: var(--green); font-size: 1rem; padding: 14px 32px; }
+    .mob-close {
+      position: absolute; top: 28px; right: 28px;
+      background: rgba(255,255,255,0.1); border: none; color: var(--cream);
+      width: 44px; height: 44px; border-radius: 50%; cursor: pointer;
+      font-size: 1.2rem; display: flex; align-items: center; justify-content: center;
+    }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh; display: flex; align-items: center;
+      padding-top: 72px; position: relative; overflow: hidden;
+      background: var(--cream);
+    }
+    .hero-inner {
+      max-width: 1240px; margin: 0 auto; padding: 80px 32px;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;
+      width: 100%;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      border: 1.5px solid var(--border); border-radius: 100px;
+      padding: 6px 16px; margin-bottom: 28px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--green2);
+    }
+    .hero-badge-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green3); animation: blink 2s ease-in-out infinite; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+    .hero-h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3.2rem, 6vw, 5.5rem);
+      line-height: 1.05; letter-spacing: -0.01em;
+      color: var(--green); margin-bottom: 20px;
+    }
+    .hero-h1 em { font-style: italic; color: var(--green3); }
+    .hero-sub {
+      font-size: 1.1rem; color: var(--muted); line-height: 1.75;
+      max-width: 420px; margin-bottom: 40px;
+    }
+    .hero-ctas { display: flex; gap: 16px; flex-wrap: wrap; }
+    .btn-primary {
+      background: var(--green); color: var(--cream);
+      padding: 16px 32px; border-radius: 100px;
+      font-size: 0.95rem; font-weight: 700; text-decoration: none;
+      letter-spacing: 0.04em; display: inline-flex; align-items: center; gap: 10px;
+      transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 4px 24px rgba(27,67,50,0.25);
+    }
+    .btn-primary:hover { background: var(--green2); transform: translateY(-2px); box-shadow: 0 8px 32px rgba(27,67,50,0.3); }
+    .btn-ghost {
+      color: var(--green); border: 2px solid var(--border);
+      padding: 14px 28px; border-radius: 100px;
+      font-size: 0.95rem; font-weight: 600; text-decoration: none;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .btn-ghost:hover { border-color: var(--green); background: rgba(27,67,50,0.05); }
+
+    /* hero visual */
+    .hero-visual { position: relative; display: flex; align-items: center; justify-content: center; }
+    .hero-glow {
+      position: absolute; width: 460px; height: 460px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(64,145,108,0.18) 0%, transparent 70%);
+      animation: pulse-glow 4s ease-in-out infinite;
+    }
+    @keyframes pulse-glow { 0%,100%{transform:scale(1);opacity:0.6} 50%{transform:scale(1.1);opacity:1} }
+    .hero-img {
+      width: 100%; max-width: 520px; border-radius: 28px; position: relative; z-index: 2;
+      animation: float-bowl 5s ease-in-out infinite;
+      box-shadow: 0 40px 80px rgba(27,67,50,0.2), 0 0 0 1px rgba(27,67,50,0.08);
+      object-fit: cover; aspect-ratio: 1;
+    }
+    @keyframes float-bowl { 0%,100%{transform:translateY(0) rotate(-0.5deg)} 50%{transform:translateY(-14px) rotate(0.5deg)} }
+
+    /* floating particles */
+    .particle {
+      position: absolute; font-size: 1.6rem; pointer-events: none; z-index: 1;
+      animation: orbit linear infinite;
+      opacity: 0.55;
+    }
+    @keyframes orbit {
+      0%   { transform: translateY(0px) rotate(0deg) scale(1); }
+      25%  { transform: translateY(-20px) rotate(5deg) scale(1.05); }
+      50%  { transform: translateY(-8px) rotate(-3deg) scale(0.95); }
+      75%  { transform: translateY(-28px) rotate(6deg) scale(1.02); }
+      100% { transform: translateY(0px) rotate(0deg) scale(1); }
+    }
+    .p1  { top:8%;  left:5%;  animation-duration:6.2s; animation-delay:0s;    font-size:1.8rem; }
+    .p2  { top:15%; right:8%; animation-duration:7.5s; animation-delay:0.8s;  font-size:1.3rem; }
+    .p3  { top:55%; left:2%;  animation-duration:5.8s; animation-delay:1.6s;  font-size:2rem; }
+    .p4  { top:70%; right:5%; animation-duration:8.1s; animation-delay:0.4s;  font-size:1.4rem; }
+    .p5  { top:30%; left:10%; animation-duration:6.7s; animation-delay:2s;    font-size:1.2rem; }
+    .p6  { top:80%; left:15%; animation-duration:7.2s; animation-delay:1.2s;  font-size:1.6rem; }
+    .p7  { top:20%; right:15%;animation-duration:5.5s; animation-delay:3s;    font-size:1.1rem; }
+    .p8  { top:65%; right:12%;animation-duration:9s;   animation-delay:1.8s;  font-size:1.9rem; }
+
+    /* ── MARQUEE ── */
+    .marquee-wrap {
+      background: var(--green); padding: 14px 0; overflow: hidden;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .marquee-track { display: flex; width: max-content; animation: marquee 28s linear infinite; }
+    .marquee-track:hover { animation-play-state: paused; }
+    @keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+    .m-item {
+      font-family: 'DM Sans', sans-serif; font-weight: 700;
+      font-size: 0.82rem; letter-spacing: 0.18em; text-transform: uppercase;
+      color: rgba(245,237,216,0.85); padding: 0 28px; white-space: nowrap;
+    }
+    .m-sep { color: var(--green3); padding: 0 4px; font-size: 1rem; }
+
+    /* ── SHARED ── */
+    section { padding: 100px 0; }
+    .wrap { max-width: 1240px; margin: 0 auto; padding: 0 32px; }
+    .section-eyebrow {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--green3); margin-bottom: 12px;
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.4rem, 4.5vw, 4rem);
+      line-height: 1.1; letter-spacing: -0.01em; color: var(--green);
+      margin-bottom: 14px;
+    }
+    .section-title em { font-style: italic; color: var(--green3); }
+    .section-sub { font-size: 1rem; color: var(--muted); max-width: 480px; line-height: 1.75; }
+
+    /* reveal */
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.7s cubic-bezier(0.16,1,0.3,1), transform 0.7s cubic-bezier(0.16,1,0.3,1); }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── SIGNATURE BOWLS ── */
+    #signatures { background: var(--ivory); overflow: hidden; }
+    .sig-scroll-wrap {
+      margin-top: 56px; overflow-x: auto; cursor: grab;
+      scrollbar-width: none; -ms-overflow-style: none;
+      padding: 0 32px 32px;
+      scroll-snap-type: x mandatory;
+    }
+    .sig-scroll-wrap::-webkit-scrollbar { display: none; }
+    .sig-scroll-wrap:active { cursor: grabbing; }
+    .sig-track {
+      display: flex; gap: 24px;
+      width: max-content;
+    }
+    .sig-card {
+      flex-shrink: 0; width: 320px;
+      border-radius: 24px; overflow: hidden;
+      background: var(--white);
+      box-shadow: 0 2px 20px rgba(27,67,50,0.08), 0 0 0 1px var(--border);
+      cursor: pointer; transform-style: preserve-3d;
+      transition: box-shadow 0.3s, transform 0.3s;
+      scroll-snap-align: start;
+    }
+    .sig-card:hover {
+      box-shadow: 0 20px 60px rgba(27,67,50,0.2), 0 0 0 1px rgba(27,67,50,0.15);
+      transform: translateY(-6px);
+    }
+    .sig-card-img {
+      width: 100%; height: 220px; object-fit: cover;
+      transition: transform 0.5s;
+    }
+    .sig-card:hover .sig-card-img { transform: scale(1.04); }
+    .sig-card-body { padding: 22px 22px 24px; }
+    .sig-category {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem; letter-spacing: 0.16em; text-transform: uppercase;
+      color: var(--green3); margin-bottom: 8px;
+    }
+    .sig-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.35rem; font-weight: 700; color: var(--green);
+      margin-bottom: 8px; line-height: 1.2;
+    }
+    .sig-ingredients { font-size: 0.8rem; color: var(--muted); line-height: 1.6; margin-bottom: 18px; }
+    .sig-footer { display: flex; align-items: center; justify-content: space-between; }
+    .sig-price {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.92rem; font-weight: 700; color: var(--green);
+    }
+    .sig-order {
+      background: var(--green); color: var(--cream);
+      padding: 8px 18px; border-radius: 100px;
+      font-size: 0.75rem; font-weight: 700; text-decoration: none;
+      letter-spacing: 0.04em; transition: background 0.2s;
+    }
+    .sig-order:hover { background: var(--green2); }
+    .sig-scroll-hint {
+      text-align: center; margin-top: 20px;
+      font-size: 0.78rem; color: var(--muted); letter-spacing: 0.06em;
+    }
+
+    /* no-image fallback for sig cards */
+    .sig-card-img-wrap {
+      position: relative; overflow: hidden; height: 220px;
+    }
+    .sig-card-img-wrap img {
+      width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s;
+    }
+    .sig-card:hover .sig-card-img-wrap img { transform: scale(1.04); }
+    .sig-card-fallback {
+      width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;
+      background: linear-gradient(135deg, var(--green) 0%, var(--green2) 100%);
+      font-size: 4rem;
+    }
+
+    /* ── BOWL BUILDER ── */
+    #builder { background: var(--cream); }
+    .builder-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 60px;
+      align-items: start; margin-top: 56px;
+    }
+    /* step panels */
+    .builder-steps { display: flex; flex-direction: column; gap: 28px; }
+    .b-step {
+      background: var(--ivory); border-radius: 20px;
+      border: 2px solid var(--border); padding: 28px;
+      transition: border-color 0.3s;
+    }
+    .b-step.active { border-color: var(--green3); }
+    .b-step-header {
+      display: flex; align-items: center; gap: 14px; margin-bottom: 20px;
+    }
+    .b-step-num {
+      width: 34px; height: 34px; border-radius: 50%;
+      background: var(--cream2); border: 2px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'JetBrains Mono', monospace; font-size: 0.8rem;
+      font-weight: 700; color: var(--muted);
+      transition: background 0.3s, color 0.3s, border-color 0.3s;
+      flex-shrink: 0;
+    }
+    .b-step.active .b-step-num { background: var(--green); color: var(--cream); border-color: var(--green); }
+    .b-step-label {
+      font-weight: 700; font-size: 0.95rem; color: var(--green);
+      letter-spacing: 0.02em;
+    }
+
+    /* base selector */
+    .base-cards { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; }
+    .base-card {
+      border: 2px solid var(--border); border-radius: 14px; padding: 16px 12px;
+      text-align: center; cursor: pointer;
+      transition: border-color 0.2s, background 0.2s, transform 0.15s;
+      background: var(--cream);
+    }
+    .base-card:hover { border-color: var(--green3); transform: translateY(-2px); }
+    .base-card.selected { border-color: var(--green); background: rgba(27,67,50,0.06); }
+    .base-card.selected .base-icon { transform: scale(1.1); }
+    .base-icon { font-size: 2.2rem; margin-bottom: 8px; display: block; transition: transform 0.2s; }
+    .base-name { font-size: 0.8rem; font-weight: 700; color: var(--green); letter-spacing: 0.04em; }
+
+    /* size toggle */
+    .size-toggle { display: flex; gap: 12px; }
+    .size-btn {
+      flex: 1; border: 2px solid var(--border); border-radius: 14px;
+      padding: 14px 12px; cursor: pointer; text-align: center;
+      background: var(--cream); transition: border-color 0.2s, background 0.2s;
+    }
+    .size-btn.selected { border-color: var(--green); background: rgba(27,67,50,0.06); }
+    .size-btn-name { font-weight: 700; font-size: 0.88rem; color: var(--green); }
+    .size-btn-ml { font-size: 0.72rem; color: var(--muted); }
+    .size-btn-price {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem; font-weight: 700; color: var(--green3); margin-top: 4px;
+    }
+
+    /* chips */
+    .chips-label {
+      font-size: 0.75rem; font-weight: 700; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--muted); margin-bottom: 10px;
+    }
+    .chips-wrap { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
+    .chip {
+      border: 1.5px solid var(--border); border-radius: 100px;
+      padding: 6px 14px; font-size: 0.78rem; font-weight: 600;
+      color: var(--green); cursor: pointer; background: var(--cream);
+      transition: border-color 0.15s, background 0.15s, transform 0.1s;
+      user-select: none;
+    }
+    .chip:hover { border-color: var(--green3); }
+    .chip.selected { background: var(--green); color: var(--cream); border-color: var(--green); }
+    .chip.selected { animation: chip-pop 0.2s ease; }
+    @keyframes chip-pop { 0%{transform:scale(1)} 40%{transform:scale(1.12)} 100%{transform:scale(1)} }
+    .chip-price { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; opacity: 0.75; }
+
+    /* builder summary (right panel) */
+    .builder-summary {
+      position: sticky; top: 96px;
+      background: var(--ivory); border-radius: 24px;
+      border: 2px solid var(--border); padding: 32px;
+      box-shadow: 0 4px 32px rgba(27,67,50,0.08);
+    }
+    .summary-bowl-visual {
+      width: 100%; height: 220px; border-radius: 18px;
+      background: linear-gradient(135deg, var(--green) 0%, var(--green3) 100%);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 5rem; margin-bottom: 24px;
+      position: relative; overflow: hidden;
+      transition: background 0.4s;
+    }
+    .summary-bowl-visual::after {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(circle at 50% 120%, rgba(255,255,255,0.12) 0%, transparent 60%);
+    }
+    .bowl-emoji { font-size: 5rem; animation: float-bowl 5s ease-in-out infinite; display: block; }
+    .summary-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.25rem; font-weight: 700; color: var(--green); margin-bottom: 6px;
+    }
+    .summary-empty { font-size: 0.85rem; color: var(--muted); margin-bottom: 20px; }
+    .summary-items { list-style: none; margin-bottom: 20px; min-height: 60px; }
+    .summary-item {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 8px 0; border-bottom: 1px solid var(--border);
+      font-size: 0.85rem; animation: slide-in 0.2s ease;
+    }
+    @keyframes slide-in { from{opacity:0;transform:translateX(-8px)} to{opacity:1;transform:translateX(0)} }
+    .summary-item-name { color: var(--text); font-weight: 500; }
+    .summary-item-price { font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; color: var(--green3); }
+    .summary-total-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 14px 0; border-top: 2px solid var(--border); margin-bottom: 20px;
+    }
+    .summary-total-label { font-weight: 700; color: var(--green); }
+    .summary-total-price {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem; font-weight: 800; color: var(--green);
+      transition: all 0.25s;
+    }
+    .summary-total-price.bump { animation: price-bump 0.3s ease; }
+    @keyframes price-bump { 0%{transform:scale(1)} 40%{transform:scale(1.15);color:var(--green3)} 100%{transform:scale(1)} }
+    .btn-order-now {
+      display: block; width: 100%; text-align: center;
+      background: var(--green); color: var(--cream);
+      padding: 16px; border-radius: 100px;
+      font-size: 0.92rem; font-weight: 700; text-decoration: none;
+      letter-spacing: 0.04em;
+      transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 4px 24px rgba(27,67,50,0.25);
+    }
+    .btn-order-now:hover { background: var(--green2); transform: translateY(-2px); box-shadow: 0 8px 32px rgba(27,67,50,0.3); }
+    .btn-order-now:disabled, .btn-order-now.disabled {
+      background: #3a5f4a; opacity: 0.62; pointer-events: none; transform: none; box-shadow: none;
+    }
+    .summary-note { text-align: center; font-size: 0.72rem; color: var(--muted); margin-top: 12px; }
+
+    /* ── FULL MENU ── */
+    #menu { background: var(--ivory); }
+    .menu-tabs {
+      display: flex; gap: 6px; flex-wrap: wrap;
+      margin: 48px 0 0; border-bottom: 2px solid var(--border);
+      padding-bottom: 0;
+    }
+    .tab-btn {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 10px 20px; background: none; border: none; cursor: pointer;
+      color: var(--muted); border-bottom: 2px solid transparent;
+      margin-bottom: -2px; transition: color 0.2s, border-color 0.2s;
+    }
+    .tab-btn:hover { color: var(--green); }
+    .tab-btn.active { color: var(--green); border-color: var(--green); }
+    .tab-panel { display: none; padding-top: 36px; }
+    .tab-panel.active { display: block; animation: tab-in 0.3s ease; }
+    @keyframes tab-in { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+    .menu-section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem; color: var(--green); margin-bottom: 4px; font-style: italic;
+    }
+    .menu-section-note { font-size: 0.78rem; color: var(--muted); margin-bottom: 20px; }
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(min(100%,380px), 1fr));
+      gap: 2px; border: 1.5px solid var(--border); border-radius: 18px;
+      overflow: hidden; margin-bottom: 36px;
+    }
+    .mi {
+      display: flex; align-items: flex-start; justify-content: space-between; gap: 16px;
+      padding: 16px 20px; background: var(--ivory);
+      transition: background 0.15s;
+    }
+    .mi:hover { background: var(--cream); }
+    .mi-left { flex: 1; }
+    .mi-name { font-weight: 700; font-size: 0.92rem; color: var(--text); margin-bottom: 3px; }
+    .mi-desc { font-size: 0.76rem; color: var(--muted); line-height: 1.5; }
+    .mi-right { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; flex-shrink: 0; }
+    .mi-price { font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; font-weight: 700; color: var(--green2); white-space: nowrap; }
+    .mi-order {
+      font-size: 0.68rem; font-weight: 700; color: var(--muted);
+      text-decoration: none; letter-spacing: 0.06em; text-transform: uppercase;
+      border: 1.5px solid var(--border); padding: 4px 10px; border-radius: 100px;
+      transition: border-color 0.2s, color 0.2s, background 0.2s;
+      white-space: nowrap;
+    }
+    .mi-order:hover { border-color: var(--green); color: var(--green); background: rgba(27,67,50,0.05); }
+    .v-badge {
+      font-size: 0.6rem; font-weight: 800; letter-spacing: 0.08em;
+      background: rgba(64,145,108,0.15); color: var(--green3);
+      padding: 2px 6px; border-radius: 4px; margin-left: 6px;
+    }
+
+    /* ── HOW IT WORKS ── */
+    #how { background: var(--green); }
+    #how .section-eyebrow { color: rgba(245,237,216,0.6); }
+    #how .section-title { color: var(--cream); }
+    #how .section-title em { color: var(--green3); }
+    #how .section-sub { color: rgba(245,237,216,0.65); }
+    .how-steps {
+      display: grid; grid-template-columns: repeat(4,1fr);
+      gap: 32px; margin-top: 64px;
+    }
+    .how-step { text-align: center; }
+    .how-num {
+      width: 52px; height: 52px; border-radius: 50%;
+      border: 2px solid rgba(245,237,216,0.25);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 20px;
+      font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 800;
+      color: var(--cream); position: relative;
+    }
+    .how-num::after {
+      content: ''; position: absolute; inset: -6px; border-radius: 50%;
+      border: 1px solid rgba(245,237,216,0.08);
+    }
+    .how-icon { font-size: 2rem; margin-bottom: 16px; display: block; }
+    .how-title { font-family: 'Playfair Display', serif; font-size: 1.15rem; font-weight: 700; color: var(--cream); margin-bottom: 10px; }
+    .how-desc { font-size: 0.85rem; color: rgba(245,237,216,0.65); line-height: 1.65; }
+    .how-cashless {
+      margin-top: 48px; text-align: center;
+      background: rgba(245,237,216,0.08); border: 1px solid rgba(245,237,216,0.15);
+      border-radius: 14px; padding: 18px 24px; display: inline-flex;
+      align-items: center; gap: 12px; color: rgba(245,237,216,0.7);
+      font-size: 0.85rem; font-weight: 600; letter-spacing: 0.04em;
+      width: 100%; justify-content: center;
+    }
+
+    /* ── ORDER CTA ── */
+    #cta {
+      background: var(--cream2); text-align: center;
+      position: relative; overflow: hidden;
+    }
+    .cta-dots {
+      position: absolute; inset: 0; pointer-events: none;
+      background-image: radial-gradient(circle, rgba(27,67,50,0.1) 1px, transparent 1px);
+      background-size: 32px 32px;
+    }
+    .cta-h {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.8rem, 5vw, 5rem); line-height: 1.1;
+      color: var(--green); margin-bottom: 16px; position: relative; z-index: 1;
+    }
+    .cta-h em { font-style: italic; color: var(--green3); }
+    .cta-sub { font-size: 1rem; color: var(--muted); margin-bottom: 40px; position: relative; z-index: 1; }
+    .btn-ig {
+      display: inline-flex; align-items: center; gap: 12px;
+      background: var(--green); color: var(--cream);
+      padding: 18px 44px; border-radius: 100px;
+      font-size: 1rem; font-weight: 700; text-decoration: none;
+      letter-spacing: 0.04em;
+      box-shadow: 0 8px 40px rgba(27,67,50,0.3);
+      transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+      position: relative; z-index: 1;
+      animation: ig-pulse 3s ease-in-out infinite;
+    }
+    @keyframes ig-pulse { 0%,100%{box-shadow:0 8px 40px rgba(27,67,50,0.3)} 50%{box-shadow:0 8px 60px rgba(27,67,50,0.5)} }
+    .btn-ig:hover { background: var(--green2); transform: scale(1.04); }
+
+    /* ── LOCATION ── */
+    #location { background: var(--ivory); }
+    .location-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; margin-top: 56px; }
+    .map-wrap { border-radius: 20px; overflow: hidden; border: 1.5px solid var(--border); height: 360px; }
+    .map-wrap iframe { width: 100%; height: 100%; border: none; }
+    .location-info { display: flex; flex-direction: column; gap: 20px; }
+    .loc-card {
+      background: var(--cream); border-radius: 16px;
+      border: 1.5px solid var(--border); padding: 22px 24px;
+      display: flex; align-items: flex-start; gap: 16px;
+    }
+    .loc-icon {
+      width: 40px; height: 40px; border-radius: 10px;
+      background: var(--green); color: var(--cream);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem; flex-shrink: 0;
+    }
+    .loc-label { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+    .loc-value { font-weight: 700; font-size: 0.95rem; color: var(--green); }
+    .loc-sub { font-size: 0.78rem; color: var(--muted); margin-top: 2px; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--green); color: var(--cream); padding: 56px 0 36px;
+    }
+    .footer-inner {
+      max-width: 1240px; margin: 0 auto; padding: 0 32px;
+      display: flex; flex-direction: column; gap: 32px;
+    }
+    .footer-top { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 32px; }
+    .footer-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem; font-weight: 800; color: var(--cream);
+      text-decoration: none;
+    }
+    .footer-logo em { font-style: italic; color: var(--green3); }
+    .footer-tagline { font-size: 0.82rem; color: rgba(245,237,216,0.55); margin-top: 6px; letter-spacing: 0.08em; }
+    .footer-links { display: flex; flex-direction: column; gap: 10px; }
+    .footer-link { color: rgba(245,237,216,0.65); text-decoration: none; font-size: 0.88rem; transition: color 0.2s; }
+    .footer-link:hover { color: var(--cream); }
+    .footer-bottom {
+      border-top: 1px solid rgba(245,237,216,0.12); padding-top: 24px;
+      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;
+    }
+    .footer-copy { font-size: 0.75rem; color: rgba(245,237,216,0.4); }
+
+    /* floating IG button */
+    .float-ig {
+      position: fixed; bottom: 32px; right: 32px; z-index: 990;
+      width: 58px; height: 58px; border-radius: 50%;
+      background: var(--green); color: var(--cream);
+      display: flex; align-items: center; justify-content: center;
+      text-decoration: none; font-size: 1.4rem;
+      box-shadow: 0 6px 30px rgba(27,67,50,0.4);
+      animation: float-ig-pulse 2.5s ease-in-out infinite;
+      transition: transform 0.2s;
+    }
+    .float-ig:hover { transform: scale(1.1); }
+    @keyframes float-ig-pulse { 0%,100%{box-shadow:0 6px 30px rgba(27,67,50,0.4)} 50%{box-shadow:0 6px 50px rgba(27,67,50,0.65)} }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1024px) {
+      .how-steps { grid-template-columns: repeat(2,1fr); }
+      .builder-grid { grid-template-columns: 1fr; }
+      .builder-summary { position: static; }
+    }
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      .hero-inner { grid-template-columns: 1fr; text-align: center; padding: 60px 24px 40px; }
+      .hero-sub { margin: 0 auto 40px; }
+      .hero-ctas { justify-content: center; }
+      .hero-visual { display: none; }
+      section { padding: 72px 0; }
+      .section-title { font-size: clamp(2rem, 7vw, 3rem); }
+      .location-grid { grid-template-columns: 1fr; }
+      .footer-top { flex-direction: column; }
+      .how-steps { grid-template-columns: 1fr 1fr; gap: 24px; }
+      .wrap { padding: 0 20px; }
+      .sig-scroll-wrap { padding: 0 20px 24px; }
+      .base-cards { grid-template-columns: repeat(3,1fr); gap: 8px; }
+    }
+    @media (max-width: 480px) {
+      .how-steps { grid-template-columns: 1fr; }
+      .hero-h1 { font-size: clamp(2.4rem, 10vw, 3.5rem); }
+      .sig-card { width: 280px; }
+      .size-toggle { flex-direction: column; }
+    }
+
+    /* ── MOBILE BUILDER TEASER ── */
+    .builder-mobile-teaser {
+      display: none;
+      text-align: center; padding: 40px 0 8px;
+    }
+    .builder-teaser-emoji {
+      font-size: 4rem; margin-bottom: 16px; display: block;
+      animation: float-bowl 4s ease-in-out infinite;
+    }
+    .builder-teaser-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--green3); margin-bottom: 10px;
+    }
+    .builder-teaser-h {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem; font-weight: 800; color: var(--green);
+      margin-bottom: 12px; line-height: 1.1;
+    }
+    .builder-teaser-sub {
+      font-size: 0.92rem; color: var(--muted); margin-bottom: 32px; line-height: 1.6;
+    }
+    .btn-start-game {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: var(--green); color: var(--cream);
+      padding: 18px 36px; border-radius: 100px;
+      font-size: 1rem; font-weight: 700; border: none; cursor: pointer;
+      letter-spacing: 0.04em;
+      box-shadow: 0 8px 32px rgba(27,67,50,0.3);
+      transition: background 0.2s, transform 0.2s;
+    }
+    .btn-start-game:hover { background: var(--green2); transform: scale(1.03); }
+    .btn-start-game:active { transform: scale(0.98); }
+
+    @media (max-width: 768px) {
+      .builder-mobile-teaser { display: block; }
+      .builder-grid { display: none !important; }
+    }
+
+    /* ── BOWL GAME OVERLAY ── */
+    #bowl-game {
+      position: fixed; inset: 0; z-index: 2000;
+      background: var(--cream);
+      display: none; flex-direction: column;
+      transform: translateY(100%);
+      transition: transform 0.48s cubic-bezier(0.16,1,0.3,1);
+      overscroll-behavior: contain;
+    }
+    #bowl-game.visible { display: flex; }
+    #bowl-game.open { transform: translateY(0); }
+
+    /* top bar */
+    .bg-topbar {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px 20px 14px;
+      border-bottom: 1px solid var(--border);
+      background: var(--ivory);
+      flex-shrink: 0; position: relative; z-index: 10;
+    }
+    .bg-back {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: var(--cream2); border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--green); font-size: 1.1rem;
+      transition: background 0.15s, transform 0.15s;
+    }
+    .bg-back:hover { background: var(--border); transform: scale(1.05); }
+    .bg-dots {
+      display: flex; align-items: center; gap: 8px;
+    }
+    .bg-dot {
+      border-radius: 100px;
+      transition: all 0.35s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    .bg-dot.done {
+      width: 6px; height: 6px;
+      background: var(--green3);
+    }
+    .bg-dot.active {
+      width: 24px; height: 8px;
+      background: var(--green);
+      animation: dot-pulse 2s ease-in-out infinite;
+    }
+    .bg-dot.upcoming {
+      width: 6px; height: 6px;
+      background: transparent; border: 1.5px solid var(--muted);
+    }
+    @keyframes dot-pulse { 0%,100%{opacity:1} 50%{opacity:0.5} }
+    .bg-price {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.9rem; font-weight: 700; color: var(--green);
+      min-width: 80px; text-align: right;
+    }
+    .bg-price.bump { animation: price-bump 0.3s ease; }
+    .bg-close {
+      position: absolute; top: 14px; right: 20px;
+      width: 36px; height: 36px; border-radius: 50%;
+      background: none; border: none; cursor: pointer;
+      color: var(--muted); font-size: 1.1rem;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    /* step screens container */
+    .bg-steps-wrap {
+      flex: 1; position: relative; overflow: hidden;
+      min-height: 0;
+    }
+    .bg-step {
+      position: absolute; inset: 0;
+      overflow-y: auto; -webkit-overflow-scrolling: touch;
+      padding: 28px 20px 32px;
+      transform: translateX(110%);
+      transition: transform 0.32s cubic-bezier(0.4,0,0.2,1);
+      will-change: transform;
+    }
+    .bg-step.active { transform: translateX(0); }
+
+    /* question heading */
+    .bg-q {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.7rem; font-weight: 800; color: var(--green);
+      margin-bottom: 6px; line-height: 1.15;
+    }
+    .bg-q-sub {
+      font-size: 0.82rem; color: var(--muted); margin-bottom: 28px;
+    }
+
+    /* base cards (step 1) */
+    .bg-base-cards { display: flex; flex-direction: column; gap: 14px; }
+    .bg-base-card {
+      display: flex; align-items: center; gap: 20px;
+      background: var(--ivory); border: 2px solid var(--border);
+      border-radius: 20px; padding: 20px 22px; cursor: pointer;
+      transition: border-color 0.2s, transform 0.15s, box-shadow 0.2s;
+    }
+    .bg-base-card:active { transform: scale(0.97); }
+    .bg-base-card.selected {
+      border-color: var(--green);
+      background: rgba(27,67,50,0.05);
+      box-shadow: 0 4px 24px rgba(27,67,50,0.12);
+    }
+    .bg-base-card.bounce { animation: card-bounce 0.4s cubic-bezier(0.34,1.56,0.64,1); }
+    @keyframes card-bounce { 0%{transform:scale(1)} 40%{transform:scale(1.06)} 100%{transform:scale(1)} }
+    .bg-base-emoji { font-size: 2.8rem; flex-shrink: 0; }
+    .bg-base-info { flex: 1; }
+    .bg-base-name {
+      font-weight: 800; font-size: 1.05rem; color: var(--green);
+    }
+    .bg-base-price {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem; color: var(--green3); margin-top: 2px;
+    }
+    .bg-base-check {
+      width: 26px; height: 26px; border-radius: 50%;
+      border: 2px solid var(--border); flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.85rem; transition: all 0.2s;
+    }
+    .bg-base-card.selected .bg-base-check {
+      background: var(--green); border-color: var(--green); color: var(--cream);
+    }
+
+    /* size cards (step 2) */
+    .bg-size-cards { display: flex; gap: 14px; }
+    .bg-size-card {
+      flex: 1; background: var(--ivory); border: 2px solid var(--border);
+      border-radius: 20px; padding: 24px 16px; cursor: pointer; text-align: center;
+      transition: border-color 0.2s, transform 0.15s, box-shadow 0.2s;
+    }
+    .bg-size-card:active { transform: scale(0.97); }
+    .bg-size-card.selected {
+      border-color: var(--green); background: rgba(27,67,50,0.05);
+      box-shadow: 0 4px 24px rgba(27,67,50,0.12);
+    }
+    .bg-size-card.bounce { animation: card-bounce 0.4s cubic-bezier(0.34,1.56,0.64,1); }
+    .bg-size-emoji { font-size: 2.4rem; margin-bottom: 10px; display: block; }
+    .bg-size-name { font-weight: 800; font-size: 1rem; color: var(--green); }
+    .bg-size-ml { font-size: 0.75rem; color: var(--muted); margin-top: 2px; }
+    .bg-size-price {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem; font-weight: 700; color: var(--green3); margin-top: 8px;
+    }
+
+    /* chip grid (steps 3 & 4) */
+    .bg-chips-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;
+    }
+    .bg-chip {
+      background: var(--ivory); border: 2px solid var(--border);
+      border-radius: 14px; padding: 14px 14px;
+      cursor: pointer; transition: border-color 0.15s, background 0.15s, transform 0.12s;
+      text-align: left;
+    }
+    .bg-chip:active { transform: scale(0.96); }
+    .bg-chip.selected {
+      background: var(--green); border-color: var(--green);
+      animation: chip-pop 0.2s ease;
+    }
+    .bg-chip.selected .bg-chip-name { color: var(--cream); }
+    .bg-chip.selected .bg-chip-price { color: rgba(245,237,216,0.75); }
+    .bg-chip-name { font-weight: 700; font-size: 0.88rem; color: var(--green); }
+    .bg-chip-price {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem; color: var(--green3); margin-top: 3px;
+    }
+
+    /* bottom action bar */
+    .bg-actions {
+      flex-shrink: 0;
+      padding: 12px 20px calc(12px + env(safe-area-inset-bottom));
+      background: var(--ivory);
+      border-top: 1px solid var(--border);
+      display: flex; gap: 10px;
+      min-height: 76px; align-items: center;
+    }
+    .bg-actions:empty { display: none; }
+    .bg-btn-next {
+      flex: 1; background: var(--green); color: var(--cream);
+      border: none; border-radius: 100px; padding: 18px;
+      font-size: 0.95rem; font-weight: 700; letter-spacing: 0.04em;
+      cursor: pointer; transition: background 0.2s, transform 0.15s, opacity 0.2s;
+      box-shadow: 0 6px 28px rgba(27,67,50,0.3);
+    }
+    .bg-btn-next:hover { background: var(--green2); }
+    .bg-btn-next:active { transform: scale(0.98); }
+    .bg-btn-next:disabled { opacity: 0.38; pointer-events: none; }
+    .bg-btn-skip {
+      background: none; border: 2px solid var(--border);
+      border-radius: 100px; padding: 18px 22px;
+      font-size: 0.88rem; font-weight: 600; color: var(--muted);
+      cursor: pointer; transition: border-color 0.15s, color 0.15s;
+    }
+    .bg-btn-skip:hover { border-color: var(--green); color: var(--green); }
+
+    /* summary screen (step 5) */
+    .bg-summary-card {
+      background: var(--ivory); border-radius: 24px;
+      border: 1.5px solid var(--border); padding: 28px;
+      margin-bottom: 24px;
+    }
+    .bg-summary-bowl {
+      width: 100%; height: 180px; border-radius: 18px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 5rem; margin-bottom: 22px;
+      background: linear-gradient(135deg, var(--green) 0%, var(--green3) 100%);
+      animation: summary-slide-up 0.5s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    @keyframes summary-slide-up { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+    .bg-summary-list { list-style: none; margin-bottom: 16px; }
+    .bg-summary-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 10px 0; border-bottom: 1px solid var(--border);
+      font-size: 0.88rem;
+    }
+    .bg-summary-row-name { color: var(--text); font-weight: 500; }
+    .bg-summary-row-price {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem; color: var(--green3);
+    }
+    .bg-summary-total {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 16px 0 0; border-top: 2px solid var(--border);
+    }
+    .bg-summary-total-label { font-weight: 700; font-size: 0.95rem; color: var(--green); }
+    .bg-summary-total-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem; font-weight: 800; color: var(--green);
+    }
+    .bg-btn-order {
+      display: flex; align-items: center; justify-content: center; gap: 12px;
+      width: 100%; background: var(--green); color: var(--cream);
+      border: none; border-radius: 100px; padding: 20px;
+      font-size: 1rem; font-weight: 700; letter-spacing: 0.04em;
+      cursor: pointer;
+      box-shadow: 0 8px 40px rgba(27,67,50,0.35);
+      transition: background 0.2s, transform 0.15s;
+      animation: ig-pulse 3s ease-in-out infinite;
+    }
+    .bg-btn-order:hover { background: var(--green2); transform: scale(1.02); }
+    .bg-rebuild {
+      display: block; text-align: center; margin-top: 14px;
+      font-size: 0.82rem; color: var(--muted); cursor: pointer;
+      background: none; border: none; width: 100%;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+<div id="progress"></div>
+
+<!-- floating IG button -->
+<a href="https://www.instagram.com/bowle.rw/" target="_blank" class="float-ig" aria-label="Order on Instagram">
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+</a>
+
+<!-- NAV -->
+<nav id="navbar">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">BOW<em>LÉ</em></a>
+    <div class="nav-links">
+      <a href="#signatures" class="nav-link">Menu</a>
+      <a href="#builder" class="nav-link">Build Your Bowl</a>
+      <a href="#location" class="nav-link">Location</a>
+      <a href="https://www.instagram.com/bowle.rw/" target="_blank" class="nav-order">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+        Order on Instagram
+      </a>
+    </div>
+    <button class="hamburger" onclick="document.getElementById('mob-menu').classList.add('open')" aria-label="Menu">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="7" x2="21" y2="7"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="17" x2="21" y2="17"/></svg>
+    </button>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div id="mob-menu">
+  <button class="mob-close" onclick="document.getElementById('mob-menu').classList.remove('open')">✕</button>
+  <a href="#signatures" class="nav-link" onclick="document.getElementById('mob-menu').classList.remove('open')">Menu</a>
+  <a href="#builder" class="nav-link" onclick="document.getElementById('mob-menu').classList.remove('open'); if(window.innerWidth<=768){event.preventDefault();openBowlGame();}">Build Your Bowl</a>
+  <a href="#location" class="nav-link" onclick="document.getElementById('mob-menu').classList.remove('open')">Location</a>
+  <a href="https://www.instagram.com/bowle.rw/" target="_blank" class="nav-order">Order on Instagram</a>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <!-- particles -->
+  <span class="particle p1">🥬</span>
+  <span class="particle p2">🍅</span>
+  <span class="particle p3">🥑</span>
+  <span class="particle p4">🌿</span>
+  <span class="particle p5">🧀</span>
+  <span class="particle p6">🍋</span>
+  <span class="particle p7">🥕</span>
+  <span class="particle p8">🌶️</span>
+
+  <div class="hero-inner">
+    <div class="hero-text">
+      <div class="hero-badge reveal" data-delay="0">
+        <span class="hero-badge-dot"></span>
+        Fresh · Fast · Flavorful · Nyarutarama, Kigali
+      </div>
+      <h1 class="hero-h1 reveal" data-delay="120">
+        Build Your<br><em>Perfect</em><br>Bowl.
+      </h1>
+      <p class="hero-sub reveal" data-delay="280">Fresh ingredients. Your way. Every single time. Salads, rice bowls & pasta bowls — all made to order.</p>
+      <div class="hero-ctas reveal" data-delay="420">
+        <a href="#builder" class="btn-primary" id="hero-build-btn" onclick="heroBuilderClick(event)">
+          Start Building →
+        </a>
+        <a href="#signatures" class="btn-ghost">See the Menu</a>
+      </div>
+    </div>
+    <div class="hero-visual reveal" data-delay="180">
+      <div class="hero-glow"></div>
+      <img src="./images/hero.jpeg" alt="BOWLÉ fresh bowl" class="hero-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+      <div style="display:none; width:100%; max-width:520px; aspect-ratio:1; border-radius:28px; background:linear-gradient(135deg,var(--green) 0%,var(--green3) 100%); align-items:center; justify-content:center; font-size:8rem; box-shadow:0 40px 80px rgba(27,67,50,0.2);">🥗</div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <span class="m-item">FRESH</span><span class="m-sep">·</span>
+    <span class="m-item">FAST</span><span class="m-sep">·</span>
+    <span class="m-item">FLAVORFUL</span><span class="m-sep">·</span>
+    <span class="m-item">SALAD BOWLS</span><span class="m-sep">·</span>
+    <span class="m-item">RICE BOWLS</span><span class="m-sep">·</span>
+    <span class="m-item">PASTA BOWLS</span><span class="m-sep">·</span>
+    <span class="m-item">BUILD YOUR WAY</span><span class="m-sep">·</span>
+    <span class="m-item">NYARUTARAMA, KIGALI</span><span class="m-sep">·</span>
+    <span class="m-item">CASHLESS</span><span class="m-sep">·</span>
+    <span class="m-item">FRESH</span><span class="m-sep">·</span>
+    <span class="m-item">FAST</span><span class="m-sep">·</span>
+    <span class="m-item">FLAVORFUL</span><span class="m-sep">·</span>
+    <span class="m-item">SALAD BOWLS</span><span class="m-sep">·</span>
+    <span class="m-item">RICE BOWLS</span><span class="m-sep">·</span>
+    <span class="m-item">PASTA BOWLS</span><span class="m-sep">·</span>
+    <span class="m-item">BUILD YOUR WAY</span><span class="m-sep">·</span>
+    <span class="m-item">NYARUTARAMA, KIGALI</span><span class="m-sep">·</span>
+    <span class="m-item">CASHLESS</span><span class="m-sep">·</span>
+  </div>
+</div>
+
+<!-- SIGNATURE BOWLS -->
+<section id="signatures">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="section-eyebrow">// Our favorites</div>
+      <h2 class="section-title">The Ones Everyone<br><em>Orders.</em></h2>
+      <p class="section-sub">Six signature builds — each one crafted for maximum flavour. Can't decide? Start here.</p>
+    </div>
+  </div>
+  <div class="sig-scroll-wrap" id="sigScroll">
+    <div class="sig-track">
+
+      <div class="sig-card reveal" data-tilt>
+        <div class="sig-card-img-wrap">
+          <img src="./images/caesar.jpeg" alt="Chicken Caesar Salad" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="sig-card-fallback" style="display:none">🥗</div>
+        </div>
+        <div class="sig-card-body">
+          <div class="sig-category">Salad Bowl</div>
+          <div class="sig-name">Chicken Caesar</div>
+          <div class="sig-ingredients">Romaine · Parmesan · Croutons · Caesar Dressing</div>
+          <div class="sig-footer">
+            <span class="sig-price">RWF 7,000</span>
+            <a href="https://www.instagram.com/bowle.rw/" target="_blank" class="sig-order" onclick="if(window.innerWidth<=768){event.preventDefault();openBowlGame('salad');}">Order →</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="sig-card reveal" data-tilt data-delay="80">
+        <div class="sig-card-img-wrap">
+          <img src="./images/teriyaki.jpeg" alt="Teriyaki Chicken Bowl" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="sig-card-fallback" style="display:none">🍚</div>
+        </div>
+        <div class="sig-card-body">
+          <div class="sig-category">Rice Bowl</div>
+          <div class="sig-name">Teriyaki Chicken</div>
+          <div class="sig-ingredients">White Rice · Teriyaki Chicken · Veg · Sesame · Teriyaki Sauce</div>
+          <div class="sig-footer">
+            <span class="sig-price">RWF 9,500</span>
+            <a href="https://www.instagram.com/bowle.rw/" target="_blank" class="sig-order" onclick="if(window.innerWidth<=768){event.preventDefault();openBowlGame('rice');}">Order →</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="sig-card reveal" data-tilt data-delay="160">
+        <div class="sig-card-img-wrap">
+          <img src="./images/carbonara.jpeg" alt="Carbonara Pasta Bowl" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="sig-card-fallback" style="display:none">🍝</div>
+        </div>
+        <div class="sig-card-body">
+          <div class="sig-category">Pasta Bowl</div>
+          <div class="sig-name">Carbonara</div>
+          <div class="sig-ingredients">Spaghetti · Silky Egg & Parmesan · Crispy Bacon · Black Pepper</div>
+          <div class="sig-footer">
+            <span class="sig-price">RWF 9,500</span>
+            <a href="https://www.instagram.com/bowle.rw/" target="_blank" class="sig-order" onclick="if(window.innerWidth<=768){event.preventDefault();openBowlGame('pasta');}">Order →</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="sig-card reveal" data-tilt data-delay="240">
+        <div class="sig-card-img-wrap">
+          <img src="./images/mediterranean.jpeg" alt="Mediterranean Beef Bowl" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="sig-card-fallback" style="display:none">🍚</div>
+        </div>
+        <div class="sig-card-body">
+          <div class="sig-category">Rice Bowl</div>
+          <div class="sig-name">Mediterranean Beef</div>
+          <div class="sig-ingredients">Turmeric Rice · Beef · Roasted Veg · Mediterranean Sauce</div>
+          <div class="sig-footer">
+            <span class="sig-price">RWF 9,500</span>
+            <a href="https://www.instagram.com/bowle.rw/" target="_blank" class="sig-order" onclick="if(window.innerWidth<=768){event.preventDefault();openBowlGame('rice');}">Order →</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="sig-card reveal" data-tilt data-delay="320">
+        <div class="sig-card-img-wrap">
+          <img src="./images/alfredo.jpeg" alt="Chicken Alfredo Fettuccine" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="sig-card-fallback" style="display:none">🍝</div>
+        </div>
+        <div class="sig-card-body">
+          <div class="sig-category">Pasta Bowl</div>
+          <div class="sig-name">Chicken Alfredo</div>
+          <div class="sig-ingredients">Fettuccine · Alfredo Sauce · Grilled Chicken · Parmesan</div>
+          <div class="sig-footer">
+            <span class="sig-price">RWF 9,500</span>
+            <a href="https://www.instagram.com/bowle.rw/" target="_blank" class="sig-order" onclick="if(window.innerWidth<=768){event.preventDefault();openBowlGame('pasta');}">Order →</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="sig-card reveal" data-tilt data-delay="400">
+        <div class="sig-card-img-wrap">
+          <img src="./images/bolognese.jpeg" alt="Spaghetti Bolognese" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="sig-card-fallback" style="display:none">🍝</div>
+        </div>
+        <div class="sig-card-body">
+          <div class="sig-category">Pasta Bowl</div>
+          <div class="sig-name">Spaghetti Bolognese</div>
+          <div class="sig-ingredients">Spaghetti · Slow-cooked Minced Beef · Bolognese · Parmesan</div>
+          <div class="sig-footer">
+            <span class="sig-price">RWF 9,500</span>
+            <a href="https://www.instagram.com/bowle.rw/" target="_blank" class="sig-order" onclick="if(window.innerWidth<=768){event.preventDefault();openBowlGame('pasta');}">Order →</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <p class="sig-scroll-hint reveal">← Drag to explore more →</p>
+</section>
+
+<!-- BOWL BUILDER -->
+<section id="builder">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="section-eyebrow">// Build your own</div>
+      <h2 class="section-title">Make It <em>Yours.</em></h2>
+      <p class="section-sub">Choose your base, pick your size, load it up — and we'll build it exactly how you want it.</p>
+    </div>
+
+    <!-- Mobile teaser (hidden on desktop) -->
+    <div class="builder-mobile-teaser reveal">
+      <span class="builder-teaser-emoji">🥣</span>
+      <div class="builder-teaser-label">// Interactive builder</div>
+      <div class="builder-teaser-h">Build Your Bowl</div>
+      <p class="builder-teaser-sub">Step through each choice — base, size, protein, toppings.<br>Watch your price update live as you build.</p>
+      <button class="btn-start-game" onclick="openBowlGame()">
+        Start Building →
+      </button>
+    </div>
+
+    <div class="builder-grid">
+
+      <!-- LEFT: Steps -->
+      <div class="builder-steps">
+
+        <!-- Step 1: Base -->
+        <div class="b-step active" id="step1">
+          <div class="b-step-header">
+            <div class="b-step-num">1</div>
+            <div class="b-step-label">Choose Your Base</div>
+          </div>
+          <div class="base-cards">
+            <div class="base-card" onclick="selectBase('salad', 6000, 8000, this)">
+              <span class="base-icon">🥗</span>
+              <div class="base-name">Salad</div>
+            </div>
+            <div class="base-card" onclick="selectBase('rice', 6500, 9500, this)">
+              <span class="base-icon">🍚</span>
+              <div class="base-name">Rice</div>
+            </div>
+            <div class="base-card" onclick="selectBase('pasta', 6500, 9500, this)">
+              <span class="base-icon">🍝</span>
+              <div class="base-name">Pasta</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 2: Size -->
+        <div class="b-step" id="step2">
+          <div class="b-step-header">
+            <div class="b-step-num">2</div>
+            <div class="b-step-label">Pick Your Size</div>
+          </div>
+          <div class="size-toggle">
+            <div class="size-btn selected" id="size-reg" onclick="selectSize('regular', this)">
+              <div class="size-btn-name">Regular</div>
+              <div class="size-btn-ml">1000 ml</div>
+              <div class="size-btn-price" id="price-reg">RWF —</div>
+            </div>
+            <div class="size-btn" id="size-lrg" onclick="selectSize('large', this)">
+              <div class="size-btn-name">Large</div>
+              <div class="size-btn-ml">1300 ml</div>
+              <div class="size-btn-price" id="price-lrg">RWF —</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 3: Protein -->
+        <div class="b-step" id="step3">
+          <div class="b-step-header">
+            <div class="b-step-num">3</div>
+            <div class="b-step-label">Add Protein <span style="font-weight:400;color:var(--muted);font-size:0.8rem">(optional)</span></div>
+          </div>
+          <div class="chips-label">Choose one</div>
+          <div class="chips-wrap" id="protein-chips">
+            <div class="chip" onclick="selectProtein('Chicken', 3000, this)">Chicken <span class="chip-price">+3,000</span></div>
+            <div class="chip" onclick="selectProtein('Beef', 4000, this)">Beef <span class="chip-price">+4,000</span></div>
+            <div class="chip" onclick="selectProtein('Tofu/Chickpeas', 3500, this)">Tofu/Chickpeas <span class="chip-price">+3,500</span></div>
+            <div class="chip" onclick="selectProtein('Tuna', 3500, this)">Tuna <span class="chip-price">+3,500</span></div>
+            <div class="chip" onclick="selectProtein('Crispy Chicken', 3000, this)">Crispy Chicken <span class="chip-price">+3,000</span></div>
+            <div class="chip" onclick="selectProtein('Shrimp', 9000, this)">Shrimp <span class="chip-price">+9,000</span></div>
+          </div>
+        </div>
+
+        <!-- Step 4: Toppings -->
+        <div class="b-step" id="step4">
+          <div class="b-step-header">
+            <div class="b-step-num">4</div>
+            <div class="b-step-label">Top It Off <span style="font-weight:400;color:var(--muted);font-size:0.8rem">(pick as many as you want)</span></div>
+          </div>
+          <div class="chips-label">Extras</div>
+          <div class="chips-wrap" id="topping-chips">
+            <div class="chip" onclick="toggleTopping('Avocado', 500, this)">Avocado <span class="chip-price">+500</span></div>
+            <div class="chip" onclick="toggleTopping('Parmesan', 1500, this)">Parmesan <span class="chip-price">+1,500</span></div>
+            <div class="chip" onclick="toggleTopping('Feta Cheese', 1000, this)">Feta <span class="chip-price">+1,000</span></div>
+            <div class="chip" onclick="toggleTopping('Mozzarella', 1500, this)">Mozzarella <span class="chip-price">+1,500</span></div>
+            <div class="chip" onclick="toggleTopping('Egg', 500, this)">Egg <span class="chip-price">+500</span></div>
+            <div class="chip" onclick="toggleTopping('Bacon', 1500, this)">Bacon <span class="chip-price">+1,500</span></div>
+            <div class="chip" onclick="toggleTopping('Mushrooms', 1500, this)">Mushrooms <span class="chip-price">+1,500</span></div>
+            <div class="chip" onclick="toggleTopping('Croutons', 500, this)">Croutons <span class="chip-price">+500</span></div>
+            <div class="chip" onclick="toggleTopping('Corn', 1000, this)">Corn <span class="chip-price">+1,000</span></div>
+            <div class="chip" onclick="toggleTopping('Olives', 1000, this)">Olives <span class="chip-price">+1,000</span></div>
+            <div class="chip" onclick="toggleTopping('Burrata', 6000, this)">Burrata <span class="chip-price">+6,000</span></div>
+            <div class="chip" onclick="toggleTopping('Roasted Veg', 1500, this)">Roasted Veg <span class="chip-price">+1,500</span></div>
+            <div class="chip" onclick="toggleTopping('Pumpkin Seeds', 1000, this)">Pumpkin Seeds <span class="chip-price">+1,000</span></div>
+            <div class="chip" onclick="toggleTopping('Cashew Nuts', 1500, this)">Cashew Nuts <span class="chip-price">+1,500</span></div>
+            <div class="chip" onclick="toggleTopping('Fries', 2500, this)">Fries <span class="chip-price">+2,500</span></div>
+            <div class="chip" onclick="toggleTopping('Quinoa', 3500, this)">Quinoa <span class="chip-price">+3,500</span></div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- RIGHT: Summary -->
+      <div class="builder-summary">
+        <div class="summary-bowl-visual" id="bowl-visual">
+          <span class="bowl-emoji" id="bowl-emoji">🥣</span>
+        </div>
+        <div class="summary-title">Your Bowl</div>
+        <div class="summary-empty" id="summary-empty">Select a base to start building →</div>
+        <ul class="summary-items" id="summary-items"></ul>
+        <div class="summary-total-row">
+          <span class="summary-total-label">Total</span>
+          <span class="summary-total-price" id="summary-total">RWF 0</span>
+        </div>
+        <a href="#" id="order-btn" class="btn-order-now disabled" onclick="openOrder(event)">
+          Send My Order via Instagram →
+        </a>
+        <p class="summary-note">You'll be taken to Instagram to send your order. We'll confirm & prepare it for you.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- FULL MENU -->
+<section id="menu">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="section-eyebrow">// Full menu</div>
+      <h2 class="section-title">Everything We<br><em>Make.</em></h2>
+      <p class="section-sub">Tap any item to order via Instagram. All prices in RWF.</p>
+    </div>
+    <div class="menu-tabs reveal">
+      <button class="tab-btn active" onclick="switchTab('salads',this)">Salad Bowls</button>
+      <button class="tab-btn" onclick="switchTab('rice',this)">Rice Bowls</button>
+      <button class="tab-btn" onclick="switchTab('pasta',this)">Pasta Bowls</button>
+      <button class="tab-btn" onclick="switchTab('byo',this)">Build Your Own</button>
+      <button class="tab-btn" onclick="switchTab('drinks',this)">Drinks</button>
+      <button class="tab-btn" onclick="switchTab('pastries',this)">Pastries</button>
+    </div>
+
+    <!-- SALADS -->
+    <div class="tab-panel active" id="tab-salads">
+      <div class="menu-section-title">Salad Bowls</div>
+      <div class="menu-section-note">All served as Regular 1000ml</div>
+      <div class="menu-grid">
+        <div class="mi"><div class="mi-left"><div class="mi-name">Chicken Caesar Salad</div><div class="mi-desc">Romaine · Parmesan · Croutons · Caesar Dressing</div></div><div class="mi-right"><span class="mi-price">RWF 7,000</span><a href="https://www.instagram.com/bowle.rw/" target="_blank" class="mi-order">Order</a></div></div>
+        <div class="mi"><div class="mi-left"><div class="mi-name">Power Chicken Salad</div><div class="mi-desc">Lettuce · Quinoa · Chicken · Avocado · Corn · Choice of Dressing</div></div><div class="mi-right"><span class="mi-price">RWF 9,800</span><a href="https://www.instagram.com/bowle.rw/" target="_blank" class="mi-order">Order</a></div></div>
+        <div class="mi"><div class="mi-left"><div class="mi-name">Tuna Crunch Salad</div><div class="mi-desc">Lettuce · Tuna · Egg · Cucumber · Pickled Onion · Greek Vinaigrette</div></div><div class="mi-right"><span class="mi-price">RWF 8,000</span><a href="https://www.instagram.com/bowle.rw/" target="_blank" class="mi-order">Order</a></div></div>
+        <div class="mi"><div class="mi-left"><div class="mi-name">Green Goddess <span class="v-badge">V</span></div><div class="mi-desc">Lettuce · Avocado · Chickpeas · Roasted Veg · Green Dressing</div></div><div class="mi-right"><span class="mi-price">RWF 6,500</span><a href="https://www.instagram.com/bowle.rw/" target="_blank" class="mi-order">Order</a></div></div>
+      </div>
+      <div class="menu-section-note">Upgrade to Large Bowl (1300ml): <strong>+3,500 RWF</strong></div>
+    </div>
+
+    <!-- RICE -->
+    <div class="tab-panel" id="tab-rice">
+      <div class="menu-section-title">Rice Bowls</div>
+      <div class="menu-section-note">All served as Regular 1000ml</div>
+      <div class="menu-grid">
+        <div class="mi"><div class="mi-left"><div class="mi-name">Teriyaki Chicken</div><div class="mi-desc">White Rice · Teriyaki Chicken · Veg · Sesame · Teriyaki Sauce</div></div><div class="mi-right"><span class="mi-price">RWF 9,500</span><a href="https://www.instagram.com/bowle.rw/" target="_blank" class="mi-order">Order</a></div></div>
+        <div class="mi"><div class="mi-left"><div class="mi-name">Mediterranean Beef</div><div class="mi-desc">Turmeric Rice · Beef · Roasted Veg · Mediterranean Sauce (Garlic, Yoghurt, Herbs, Olive Oil)</div></div><div class="mi-right"><span class="mi-price">RWF 9,500</span><a href="https://www.instagram.com/bowle.rw/" target="_blank" class="mi-order">Order</a></div></div>
+        <div class="mi"><div class="mi-left"><div class="mi-name">Beef Mafe</div><div class="mi-desc">Rice · Beef · Veg · Mafe Sauce (West African Peanut Sauce)</div></div><div class="mi-right"><span class="mi-price">RWF 9,500</span><a href="https://www.instagram.com/bowle.rw/" target="_blank" class="mi-order">Order</a></div></div>
+        <div class="mi"><div class="mi-left"><div class="mi-name">Chicken Yassa</div><div class="mi-desc">Rice · Chicken · Veg · Yassa Sauce (West African Lemon & Onion Sauce)</div></div><div class="mi-right"><span class="mi-price">RWF 9,500</span><a href="https://www.instagram.com/bowle.rw/" target="_blank" class="mi-order">Order</a></div></div>
+        <div class="mi"><div class="mi-left"><div class="mi-name">Stir Fried Shrimp</div><div class="mi-desc">Rice · Shrimp · Peppers · Chili Oil</div></div><div class="mi-right"><span class="mi-price">RWF 15,000</span><a href="https://www.instagram.com/bowle.rw/" target="_blank" class="mi-order">Order</a></div></div>
+      </div>
+      <div class="menu-section-note">Brown Rice Bowl: <strong>9,500</strong> · Quinoa Bowl: <strong>11,500</strong> · Large: <strong>+3,500</strong></div>
+    </div>
+
+    <!-- PASTA -->
+    <div class="tab-panel" id="tab-pasta">
+      <div class="menu-section-title">Pasta Bowls</div>
+      <div class="menu-section-note">Choose from Penne · Fusilli · Spaghetti · Fettuccine</div>
+      <div class="menu-grid">
+        <div class="mi"><div class="mi-left"><div class="mi-name">Chicken Alfredo Fettuccine</div><div class="mi-desc">Alfredo · Grilled Chicken · Parmesan</div></div><div class="mi-right"><span class="mi-price">RWF 9,500</span><a href="https://www.instagram.com/bowle.rw/" target="_blank" class="mi-order">Order</a></div></div>
+        <div class="mi"><div class="mi-left"><div class="mi-name">Spaghetti Bolognese</div><div class="mi-desc">Bolognese · Minced Beef · Parmesan</div></div><div class="mi-right"><span class="mi-price">RWF 9,500</span><a href="https://www.instagram.com/bowle.rw/" target="_blank" class="mi-order">Order</a></div></div>
+        <div class="mi"><div class="mi-left"><div class="mi-name">Carbonara</div><div class="mi-desc">Spaghetti · Silky Egg & Parmesan · Crispy Bacon · Cracked Black Pepper</div></div><div class="mi-right"><span class="mi-price">RWF 9,500</span><a href="https://www.instagram.com/bowle.rw/" target="_blank" class="mi-order">Order</a></div></div>
+        <div class="mi"><div class="mi-left"><div class="mi-name">Creamy Shrimp Tomato</div><div class="mi-desc">Penne · Creamy Tomato Sauce · Shrimp</div></div><div class="mi-right"><span class="mi-price">RWF 15,000</span><a href="https://www.instagram.com/bowle.rw/" target="_blank" class="mi-order">Order</a></div></div>
+        <div class="mi"><div class="mi-left"><div class="mi-name">Green Genovese <span class="v-badge">V</span></div><div class="mi-desc">Fusilli · Pesto · Mushrooms · Parmesan</div></div><div class="mi-right"><span class="mi-price">RWF 8,500</span><a href="https://www.instagram.com/bowle.rw/" target="_blank" class="mi-order">Order</a></div></div>
+      </div>
+      <div class="menu-section-note">Gluten-Free pasta: <strong>+2,000</strong> · Large Bowl: <strong>+3,500</strong> · Premium sauces: Alfredo, Genovese, Bolognese, Carbonara <strong>+2,500</strong></div>
+    </div>
+
+    <!-- BUILD YOUR OWN -->
+    <div class="tab-panel" id="tab-byo">
+      <div class="menu-section-title">Build Your Own</div>
+      <div class="menu-section-note">Choose your base, then add protein, toppings & sauce</div>
+      <div class="menu-grid">
+        <div class="mi"><div class="mi-left"><div class="mi-name">Salad Bowl — Regular</div><div class="mi-desc">1000ml · 5 greens to choose from · 4 toppings included · choice of dressing</div></div><div class="mi-right"><span class="mi-price">RWF 6,000</span><a href="#builder" class="mi-order">Build ↑</a></div></div>
+        <div class="mi"><div class="mi-left"><div class="mi-name">Salad Bowl — Large</div><div class="mi-desc">1300ml · same options, bigger portion</div></div><div class="mi-right"><span class="mi-price">RWF 8,000</span><a href="#builder" class="mi-order">Build ↑</a></div></div>
+        <div class="mi"><div class="mi-left"><div class="mi-name">Rice Bowl — Regular</div><div class="mi-desc">1000ml · White or Turmeric Rice · Sauces: Mafe, Yassa, Coconut Curry, Teriyaki</div></div><div class="mi-right"><span class="mi-price">RWF 6,500</span><a href="#builder" class="mi-order">Build ↑</a></div></div>
+        <div class="mi"><div class="mi-left"><div class="mi-name">Rice Bowl — Large</div><div class="mi-desc">1300ml · Brown Rice Bowl 9,500 · Quinoa Bowl 11,500</div></div><div class="mi-right"><span class="mi-price">RWF 9,500</span><a href="#builder" class="mi-order">Build ↑</a></div></div>
+        <div class="mi"><div class="mi-left"><div class="mi-name">Pasta Bowl — Regular</div><div class="mi-desc">1000ml · Penne, Fusilli, Spaghetti or Fettuccine</div></div><div class="mi-right"><span class="mi-price">RWF 6,500</span><a href="#builder" class="mi-order">Build ↑</a></div></div>
+        <div class="mi"><div class="mi-left"><div class="mi-name">Pasta Bowl — Large</div><div class="mi-desc">1300ml · Gluten-Free pasta: +2,000</div></div><div class="mi-right"><span class="mi-price">RWF 9,500</span><a href="#builder" class="mi-order">Build ↑</a></div></div>
+      </div>
+    </div>
+
+    <!-- DRINKS -->
+    <div class="tab-panel" id="tab-drinks">
+      <div class="menu-section-title">Coffee & Tea</div>
+      <div class="menu-grid">
+        <div class="mi"><div class="mi-left"><div class="mi-name">Espresso</div></div><div class="mi-right"><span class="mi-price">RWF 2,500</span><a href="https://www.instagram.com/bowle.rw/" target="_blank" class="mi-order">Order</a></div></div>
+        <div class="mi"><div class="mi-left"><div class="mi-name">Americano</div></div><div class="mi-right"><span class="mi-price">RWF 3,000</span><a href="https://www.instagram.com/bowle.rw/" target="_blank" class="mi-order">Order</a></div></div>
+        <div class="mi"><div class="mi-left"><div class="mi-name">Latte</div></div><div class="mi-right"><span class="mi-price">RWF 3,500</span><a href="https://www.instagram.com/bowle.rw/" target="_blank" class="mi-order">Order</a></div></div>
+        <div class="mi"><div class="mi-left"><div class="mi-name">Cappuccino</div></div><div class="mi-right"><span class="mi-price">RWF 3,500</span><a href="https://www.instagram.com/bowle.rw/" target="_blank" class="mi-order">Order</a></div></div>
+        <div class="mi"><div class="mi-left"><div class="mi-name">Mocha</div></div><div class="mi-right"><span class="mi-price">RWF 3,500</span><a href="https://www.instagram.com/bowle.rw/" target="_blank" class="mi-order">Order</a></div></div>
+        <div class="mi"><div class="mi-left"><div class="mi-name">Hot Chocolate</div></div><div class="mi-right"><span class="mi-price">RWF 4,000</span><a href="https://www.instagram.com/bowle.rw/" target="_blank" class="mi-order">Order</a></div></div>
+        <div class="mi"><div class="mi-left"><div class="mi-name">Lemon / Green Tea</div></div><div class="mi-right"><span class="mi-price">RWF 3,000</span><a href="https://www.instagram.com/bowle.rw/" target="_blank" class="mi-order">Order</a></div></div>
+        <div class="mi"><div class="mi-left"><div class="mi-name">Mint Tea</div></div><div class="mi-right"><span class="mi-price">RWF 3,500</span><a href="https://www.instagram.com/bowle.rw/" target="_blank" class="mi-order">Order</a></div></div>
+        <div class="mi"><div class="mi-left"><div class="mi-name">Black Tea</div></div><div class="mi-right"><span class="mi-price">RWF 3,000</span><a href="https://www.instagram.com/bowle.rw/" target="_blank" class="mi-order">Order</a></div></div>
+        <div class="mi"><div class="mi-left"><div class="mi-name">African Tea</div></div><div class="mi-right"><span class="mi-price">RWF 4,000</span><a href="https://www.instagram.com/bowle.rw/" target="_blank" class="mi-order">Order</a></div></div>
+        <div class="mi"><div class="mi-left"><div class="mi-name">Spiced Ginger Tea</div></div><div class="mi-right"><span class="mi-price">RWF 3,500</span><a href="https://www.instagram.com/bowle.rw/" target="_blank" class="mi-order">Order</a></div></div>
+      </div>
+      <div class="menu-section-title" style="margin-top:32px">Fresh Juice</div>
+      <div class="menu-grid">
+        <div class="mi"><div class="mi-left"><div class="mi-name">Pineapple</div></div><div class="mi-right"><span class="mi-price">RWF 8,000</span><a href="https://www.instagram.com/bowle.rw/" target="_blank" class="mi-order">Order</a></div></div>
+        <div class="mi"><div class="mi-left"><div class="mi-name">Watermelon</div></div><div class="mi-right"><span class="mi-price">RWF 8,000</span><a href="https://www.instagram.com/bowle.rw/" target="_blank" class="mi-order">Order</a></div></div>
+        <div class="mi"><div class="mi-left"><div class="mi-name">Kinyomoro</div></div><div class="mi-right"><span class="mi-price">RWF 10,000</span><a href="https://www.instagram.com/bowle.rw/" target="_blank" class="mi-order">Order</a></div></div>
+        <div class="mi"><div class="mi-left"><div class="mi-name">Mango</div></div><div class="mi-right"><span class="mi-price">RWF 10,000</span><a href="https://www.instagram.com/bowle.rw/" target="_blank" class="mi-order">Order</a></div></div>
+        <div class="mi"><div class="mi-left"><div class="mi-name">Passion</div></div><div class="mi-right"><span class="mi-price">RWF 10,000</span><a href="https://www.instagram.com/bowle.rw/" target="_blank" class="mi-order">Order</a></div></div>
+        <div class="mi"><div class="mi-left"><div class="mi-name">Cocktail</div></div><div class="mi-right"><span class="mi-price">RWF 10,000</span><a href="https://www.instagram.com/bowle.rw/" target="_blank" class="mi-order">Order</a></div></div>
+      </div>
+      <div class="menu-section-title" style="margin-top:32px">Soft Drinks & Alcoholic</div>
+      <div class="menu-grid">
+        <div class="mi"><div class="mi-left"><div class="mi-name">Water</div></div><div class="mi-right"><span class="mi-price">RWF 1,500</span><a href="https://www.instagram.com/bowle.rw/" target="_blank" class="mi-order">Order</a></div></div>
+        <div class="mi"><div class="mi-left"><div class="mi-name">Soda 33cl</div></div><div class="mi-right"><span class="mi-price">RWF 2,000</span><a href="https://www.instagram.com/bowle.rw/" target="_blank" class="mi-order">Order</a></div></div>
+        <div class="mi"><div class="mi-left"><div class="mi-name">Soda 50cl</div></div><div class="mi-right"><span class="mi-price">RWF 2,500</span><a href="https://www.instagram.com/bowle.rw/" target="_blank" class="mi-order">Order</a></div></div>
+        <div class="mi"><div class="mi-left"><div class="mi-name">Coconut Water</div></div><div class="mi-right"><span class="mi-price">RWF 3,500</span><a href="https://www.instagram.com/bowle.rw/" target="_blank" class="mi-order">Order</a></div></div>
+        <div class="mi"><div class="mi-left"><div class="mi-name">Yoghurt Drink</div></div><div class="mi-right"><span class="mi-price">RWF 2,500</span><a href="https://www.instagram.com/bowle.rw/" target="_blank" class="mi-order">Order</a></div></div>
+        <div class="mi"><div class="mi-left"><div class="mi-name">Local Beer</div></div><div class="mi-right"><span class="mi-price">RWF 3,000</span><a href="https://www.instagram.com/bowle.rw/" target="_blank" class="mi-order">Order</a></div></div>
+        <div class="mi"><div class="mi-left"><div class="mi-name">Heineken</div></div><div class="mi-right"><span class="mi-price">RWF 3,500</span><a href="https://www.instagram.com/bowle.rw/" target="_blank" class="mi-order">Order</a></div></div>
+        <div class="mi"><div class="mi-left"><div class="mi-name">Soju</div></div><div class="mi-right"><span class="mi-price">RWF 12,000</span><a href="https://www.instagram.com/bowle.rw/" target="_blank" class="mi-order">Order</a></div></div>
+        <div class="mi"><div class="mi-left"><div class="mi-name">Wine</div></div><div class="mi-right"><span class="mi-price">RWF 10,000</span><a href="https://www.instagram.com/bowle.rw/" target="_blank" class="mi-order">Order</a></div></div>
+      </div>
+    </div>
+
+    <!-- PASTRIES -->
+    <div class="tab-panel" id="tab-pastries">
+      <div class="menu-section-title">Pastries</div>
+      <div class="menu-grid">
+        <div class="mi"><div class="mi-left"><div class="mi-name">Croissant</div></div><div class="mi-right"><span class="mi-price">RWF 2,000</span><a href="https://www.instagram.com/bowle.rw/" target="_blank" class="mi-order">Order</a></div></div>
+        <div class="mi"><div class="mi-left"><div class="mi-name">Pain au Chocolat</div></div><div class="mi-right"><span class="mi-price">RWF 2,000</span><a href="https://www.instagram.com/bowle.rw/" target="_blank" class="mi-order">Order</a></div></div>
+        <div class="mi"><div class="mi-left"><div class="mi-name">Pain aux Raisins</div></div><div class="mi-right"><span class="mi-price">RWF 2,000</span><a href="https://www.instagram.com/bowle.rw/" target="_blank" class="mi-order">Order</a></div></div>
+        <div class="mi"><div class="mi-left"><div class="mi-name">Banana Cake</div></div><div class="mi-right"><span class="mi-price">RWF 500</span><a href="https://www.instagram.com/bowle.rw/" target="_blank" class="mi-order">Order</a></div></div>
+        <div class="mi"><div class="mi-left"><div class="mi-name">Lemon Cake</div></div><div class="mi-right"><span class="mi-price">RWF 500</span><a href="https://www.instagram.com/bowle.rw/" target="_blank" class="mi-order">Order</a></div></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="section-eyebrow">// How to order</div>
+      <h2 class="section-title">Simple as <em>That.</em></h2>
+      <p class="section-sub">Build it in four easy steps. Pay once. Enjoy always.</p>
+    </div>
+    <div class="how-steps">
+      <div class="how-step reveal">
+        <div class="how-num">1</div>
+        <span class="how-icon">🎯</span>
+        <div class="how-title">Choose Your Style</div>
+        <div class="how-desc">Pick a Signature Bowl from our favourites — or build your own from scratch, your way.</div>
+      </div>
+      <div class="how-step reveal" data-delay="120">
+        <div class="how-num">2</div>
+        <span class="how-icon">🥣</span>
+        <div class="how-title">Pick Your Base</div>
+        <div class="how-desc">Salad, Rice or Pasta. Regular (1000ml) or Large (1300ml). You choose the foundation.</div>
+      </div>
+      <div class="how-step reveal" data-delay="240">
+        <div class="how-num">3</div>
+        <span class="how-icon">✨</span>
+        <div class="how-title">Customize It</div>
+        <div class="how-desc">Add your protein, load up the toppings, choose your sauce. No limits — it's yours.</div>
+      </div>
+      <div class="how-step reveal" data-delay="360">
+        <div class="how-num">4</div>
+        <span class="how-icon">✅</span>
+        <div class="how-title">Confirm & Pay</div>
+        <div class="how-desc">Pay, relax — we'll bring it to you. Sit down, enjoy. It's that simple.</div>
+      </div>
+    </div>
+    <div class="how-cashless reveal">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+      NO CASH — We are completely cashless. Card payment only.
+    </div>
+  </div>
+</section>
+
+<!-- ORDER CTA -->
+<section id="cta">
+  <div class="cta-dots"></div>
+  <div class="wrap" style="text-align:center; position:relative; z-index:1;">
+    <div class="reveal">
+      <h2 class="cta-h">Ready to<br><em>Build?</em></h2>
+      <p class="cta-sub">DM us on Instagram or come in and build it yourself — we'll handle the rest.</p>
+      <a href="https://www.instagram.com/bowle.rw/" target="_blank" class="btn-ig">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+        Order via @bowle.rw
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- LOCATION -->
+<section id="location">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="section-eyebrow">// Find us</div>
+      <h2 class="section-title">Come <em>In.</em></h2>
+    </div>
+    <div class="location-grid">
+      <div class="map-wrap reveal">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3987.4852!2d30.0926!3d-1.9441!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x19dca6e6c4!2sNyarutarama%2C%20Kigali%2C%20Rwanda!5e0!3m2!1sen!2srw!4v1" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+      <div class="location-info reveal">
+        <div class="loc-card">
+          <div class="loc-icon">📍</div>
+          <div>
+            <div class="loc-label">Location</div>
+            <div class="loc-value">Nyarutarama, Kigali, Rwanda</div>
+          </div>
+        </div>
+        <div class="loc-card">
+          <div class="loc-icon">🕐</div>
+          <div>
+            <div class="loc-label">Opening Hours</div>
+            <div class="loc-value">Open Daily</div>
+            <div class="loc-sub">Check Instagram for latest hours</div>
+          </div>
+        </div>
+        <div class="loc-card">
+          <div class="loc-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+          </div>
+          <div>
+            <div class="loc-label">Instagram</div>
+            <div class="loc-value">@bowle.rw</div>
+            <div class="loc-sub">Orders, updates & new drops</div>
+          </div>
+        </div>
+        <div class="loc-card">
+          <div class="loc-icon">💳</div>
+          <div>
+            <div class="loc-label">Payment</div>
+            <div class="loc-value">Cashless Only</div>
+            <div class="loc-sub">Card payment at the counter</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <a href="#" class="footer-logo">BOW<em>LÉ</em></a>
+        <div class="footer-tagline">Fresh · Fast · Flavorful</div>
+      </div>
+      <div class="footer-links">
+        <a href="#signatures" class="footer-link">Signature Bowls</a>
+        <a href="#builder" class="footer-link">Build Your Bowl</a>
+        <a href="#menu" class="footer-link">Full Menu</a>
+        <a href="#location" class="footer-link">Location</a>
+      </div>
+      <div class="footer-links">
+        <a href="https://www.instagram.com/bowle.rw/" target="_blank" class="footer-link">@bowle.rw on Instagram</a>
+        <a href="https://www.instagram.com/bowle.rw/" target="_blank" class="footer-link">Order via DM</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2025 BOWLÉ · Nyarutarama, Kigali, Rwanda</div>
+      <div class="footer-copy">Salads · Rice Bowls · Pasta Bowls</div>
+    </div>
+  </div>
+</footer>
+
+<!-- ── BOWL GAME OVERLAY ── -->
+<div id="bowl-game" aria-modal="true" role="dialog">
+
+  <!-- Top Bar -->
+  <div class="bg-topbar">
+    <button class="bg-back" id="bg-back-btn" onclick="gameGoBack()" aria-label="Back">←</button>
+    <div class="bg-dots" id="bg-dots">
+      <div class="bg-dot active" data-dot="1"></div>
+      <div class="bg-dot upcoming" data-dot="2"></div>
+      <div class="bg-dot upcoming" data-dot="3"></div>
+      <div class="bg-dot upcoming" data-dot="4"></div>
+    </div>
+    <div class="bg-price" id="bg-price">RWF 0</div>
+    <button class="bg-close" onclick="closeBowlGame()" aria-label="Close">✕</button>
+  </div>
+
+  <!-- Steps Wrapper -->
+  <div class="bg-steps-wrap">
+
+    <!-- Step 1: Base -->
+    <div class="bg-step active" id="bg-step-1">
+      <div class="bg-q">What's your<br>base? 🥣</div>
+      <div class="bg-q-sub">Tap to select — we'll move you right along.</div>
+      <div class="bg-base-cards">
+        <div class="bg-base-card" onclick="gameSelectBase('salad',6000,8000,'🥗','Salad Bowl',this)">
+          <span class="bg-base-emoji">🥗</span>
+          <div class="bg-base-info">
+            <div class="bg-base-name">Salad Bowl</div>
+            <div class="bg-base-price">from RWF 6,000</div>
+          </div>
+          <div class="bg-base-check">✓</div>
+        </div>
+        <div class="bg-base-card" onclick="gameSelectBase('rice',6500,9500,'🍚','Rice Bowl',this)">
+          <span class="bg-base-emoji">🍚</span>
+          <div class="bg-base-info">
+            <div class="bg-base-name">Rice Bowl</div>
+            <div class="bg-base-price">from RWF 6,500</div>
+          </div>
+          <div class="bg-base-check">✓</div>
+        </div>
+        <div class="bg-base-card" onclick="gameSelectBase('pasta',6500,9500,'🍝','Pasta Bowl',this)">
+          <span class="bg-base-emoji">🍝</span>
+          <div class="bg-base-info">
+            <div class="bg-base-name">Pasta Bowl</div>
+            <div class="bg-base-price">from RWF 6,500</div>
+          </div>
+          <div class="bg-base-check">✓</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 2: Size -->
+    <div class="bg-step" id="bg-step-2">
+      <div class="bg-q">Choose your<br>size. 📏</div>
+      <div class="bg-q-sub">How hungry are you today?</div>
+      <div class="bg-size-cards">
+        <div class="bg-size-card" onclick="gameSelectSize('regular',this)">
+          <span class="bg-size-emoji">🥣</span>
+          <div class="bg-size-name">Regular</div>
+          <div class="bg-size-ml">1000 ml</div>
+          <div class="bg-size-price" id="bg-size-reg-price">RWF —</div>
+        </div>
+        <div class="bg-size-card" onclick="gameSelectSize('large',this)">
+          <span class="bg-size-emoji">🍲</span>
+          <div class="bg-size-name">Large</div>
+          <div class="bg-size-ml">1300 ml</div>
+          <div class="bg-size-price" id="bg-size-lrg-price">RWF —</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 3: Protein (optional) -->
+    <div class="bg-step" id="bg-step-3">
+      <div class="bg-q">Add protein. 🍗</div>
+      <div class="bg-q-sub">Optional — skip if you'd like.</div>
+      <div class="bg-chips-grid" id="bg-protein-grid">
+        <div class="bg-chip" onclick="gameSelectProtein('Chicken',3000,this)"><div class="bg-chip-name">🍗 Chicken</div><div class="bg-chip-price">+3,000</div></div>
+        <div class="bg-chip" onclick="gameSelectProtein('Beef',4000,this)"><div class="bg-chip-name">🥩 Beef</div><div class="bg-chip-price">+4,000</div></div>
+        <div class="bg-chip" onclick="gameSelectProtein('Tofu / Chickpeas',3500,this)"><div class="bg-chip-name">🫛 Tofu / Chickpeas</div><div class="bg-chip-price">+3,500</div></div>
+        <div class="bg-chip" onclick="gameSelectProtein('Tuna',3500,this)"><div class="bg-chip-name">🐟 Tuna</div><div class="bg-chip-price">+3,500</div></div>
+        <div class="bg-chip" onclick="gameSelectProtein('Crispy Chicken',3000,this)"><div class="bg-chip-name">🍳 Crispy Chicken</div><div class="bg-chip-price">+3,000</div></div>
+        <div class="bg-chip" onclick="gameSelectProtein('Shrimp',9000,this)"><div class="bg-chip-name">🍤 Shrimp</div><div class="bg-chip-price">+9,000</div></div>
+      </div>
+    </div>
+
+    <!-- Step 4: Toppings -->
+    <div class="bg-step" id="bg-step-4">
+      <div class="bg-q">Top it off. ✨</div>
+      <div class="bg-q-sub">Pick as many as you want.</div>
+      <div class="bg-chips-grid" id="bg-toppings-grid">
+        <div class="bg-chip" onclick="gameToggleTopping('Avocado',500,this)"><div class="bg-chip-name">🥑 Avocado</div><div class="bg-chip-price">+500</div></div>
+        <div class="bg-chip" onclick="gameToggleTopping('Parmesan',1500,this)"><div class="bg-chip-name">🧀 Parmesan</div><div class="bg-chip-price">+1,500</div></div>
+        <div class="bg-chip" onclick="gameToggleTopping('Feta Cheese',1000,this)"><div class="bg-chip-name">🧀 Feta</div><div class="bg-chip-price">+1,000</div></div>
+        <div class="bg-chip" onclick="gameToggleTopping('Mozzarella',1500,this)"><div class="bg-chip-name">🫕 Mozzarella</div><div class="bg-chip-price">+1,500</div></div>
+        <div class="bg-chip" onclick="gameToggleTopping('Egg',500,this)"><div class="bg-chip-name">🥚 Egg</div><div class="bg-chip-price">+500</div></div>
+        <div class="bg-chip" onclick="gameToggleTopping('Bacon',1500,this)"><div class="bg-chip-name">🥓 Bacon</div><div class="bg-chip-price">+1,500</div></div>
+        <div class="bg-chip" onclick="gameToggleTopping('Mushrooms',1500,this)"><div class="bg-chip-name">🍄 Mushrooms</div><div class="bg-chip-price">+1,500</div></div>
+        <div class="bg-chip" onclick="gameToggleTopping('Croutons',500,this)"><div class="bg-chip-name">🍞 Croutons</div><div class="bg-chip-price">+500</div></div>
+        <div class="bg-chip" onclick="gameToggleTopping('Corn',1000,this)"><div class="bg-chip-name">🌽 Corn</div><div class="bg-chip-price">+1,000</div></div>
+        <div class="bg-chip" onclick="gameToggleTopping('Olives',1000,this)"><div class="bg-chip-name">🫒 Olives</div><div class="bg-chip-price">+1,000</div></div>
+        <div class="bg-chip" onclick="gameToggleTopping('Burrata',6000,this)"><div class="bg-chip-name">🧆 Burrata</div><div class="bg-chip-price">+6,000</div></div>
+        <div class="bg-chip" onclick="gameToggleTopping('Roasted Veg',1500,this)"><div class="bg-chip-name">🥦 Roasted Veg</div><div class="bg-chip-price">+1,500</div></div>
+        <div class="bg-chip" onclick="gameToggleTopping('Pumpkin Seeds',1000,this)"><div class="bg-chip-name">🌱 Pumpkin Seeds</div><div class="bg-chip-price">+1,000</div></div>
+        <div class="bg-chip" onclick="gameToggleTopping('Cashew Nuts',1500,this)"><div class="bg-chip-name">🥜 Cashew Nuts</div><div class="bg-chip-price">+1,500</div></div>
+        <div class="bg-chip" onclick="gameToggleTopping('Fries',2500,this)"><div class="bg-chip-name">🍟 Fries</div><div class="bg-chip-price">+2,500</div></div>
+        <div class="bg-chip" onclick="gameToggleTopping('Quinoa',3500,this)"><div class="bg-chip-name">🌾 Quinoa</div><div class="bg-chip-price">+3,500</div></div>
+      </div>
+    </div>
+
+    <!-- Step 5: Summary -->
+    <div class="bg-step" id="bg-step-5">
+      <div class="bg-q">Your bowl<br>is ready! 🎉</div>
+      <div class="bg-q-sub">Here's what you're having:</div>
+      <div class="bg-summary-card">
+        <div class="bg-summary-bowl" id="bg-summary-bowl">🥣</div>
+        <ul class="bg-summary-list" id="bg-summary-list"></ul>
+        <div class="bg-summary-total">
+          <span class="bg-summary-total-label">Total</span>
+          <span class="bg-summary-total-num" id="bg-summary-total">RWF 0</span>
+        </div>
+      </div>
+      <button class="bg-btn-order" onclick="gameOpenOrder()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+        Send My Order via @bowle.rw
+      </button>
+      <button class="bg-rebuild" onclick="gameGoToStep(1)">← Start over</button>
+    </div>
+
+  </div><!-- end bg-steps-wrap -->
+
+  <!-- Global action bar (lives outside steps — never affected by step transforms) -->
+  <div class="bg-actions" id="bg-game-actions"></div>
+
+</div><!-- end #bowl-game -->
+
+<script>
+  /* SCROLL PROGRESS */
+  const prog = document.getElementById('progress');
+  window.addEventListener('scroll', () => {
+    prog.style.width = (window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100) + '%';
+  }, { passive: true });
+
+  /* NAV */
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 60);
+  }, { passive: true });
+
+  /* REVEAL */
+  const revObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const d = parseInt(e.target.dataset.delay || 0);
+        setTimeout(() => e.target.classList.add('visible'), d);
+        revObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => revObs.observe(el));
+
+  /* MENU TABS */
+  function switchTab(id, btn) {
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab-' + id).classList.add('active');
+    btn.classList.add('active');
+  }
+
+  /* 3D TILT on sig cards via Vanilla Tilt */
+  const isTouch = window.matchMedia('(hover:none)').matches;
+  if (!isTouch && typeof VanillaTilt !== 'undefined') {
+    VanillaTilt.init(document.querySelectorAll('[data-tilt]'), {
+      max: 8, speed: 400, glare: true, 'max-glare': 0.12, perspective: 800
+    });
+  }
+
+  /* DRAG SCROLL for sig cards */
+  const sigScroll = document.getElementById('sigScroll');
+  let isDragging = false, startX, scrollLeft;
+  sigScroll.addEventListener('mousedown', e => {
+    isDragging = true; startX = e.pageX - sigScroll.offsetLeft; scrollLeft = sigScroll.scrollLeft;
+    sigScroll.style.userSelect = 'none';
+  });
+  sigScroll.addEventListener('mousemove', e => {
+    if (!isDragging) return;
+    const x = e.pageX - sigScroll.offsetLeft;
+    sigScroll.scrollLeft = scrollLeft - (x - startX) * 1.2;
+  });
+  ['mouseup','mouseleave'].forEach(ev => sigScroll.addEventListener(ev, () => {
+    isDragging = false; sigScroll.style.userSelect = '';
+  }));
+
+  /* ── BOWL BUILDER STATE ── */
+  const state = {
+    base: null, baseEmoji: '🥣', baseLabel: '',
+    regPrice: 0, lrgPrice: 0,
+    size: 'regular',
+    protein: null, proteinCost: 0,
+    toppings: {}, // name -> cost
+  };
+
+  function getTotal() {
+    const baseP = state.size === 'large' ? state.lrgPrice : state.regPrice;
+    const protP = state.proteinCost;
+    const topP = Object.values(state.toppings).reduce((a,b) => a+b, 0);
+    return baseP + protP + topP;
+  }
+
+  function fmt(n) { return 'RWF ' + n.toLocaleString(); }
+
+  function updateSummary() {
+    const items = document.getElementById('summary-items');
+    const total = document.getElementById('summary-total');
+    const empty = document.getElementById('summary-empty');
+    const orderBtn = document.getElementById('order-btn');
+    const visual = document.getElementById('bowl-visual');
+    const emoji = document.getElementById('bowl-emoji');
+
+    items.innerHTML = '';
+    const hasBase = state.base !== null;
+
+    if (!hasBase) {
+      empty.style.display = 'block';
+      orderBtn.classList.add('disabled');
+      total.textContent = 'RWF 0';
+      return;
+    }
+
+    empty.style.display = 'none';
+    orderBtn.classList.remove('disabled');
+
+    // Bowl visual bg by type
+    const bgs = {
+      salad: 'linear-gradient(135deg,#2D6A4F 0%,#52B788 100%)',
+      rice:  'linear-gradient(135deg,#1B4332 0%,#40916C 100%)',
+      pasta: 'linear-gradient(135deg,#3D405B 0%,#81B29A 100%)',
+    };
+    visual.style.background = bgs[state.base] || bgs.salad;
+    emoji.textContent = state.baseEmoji;
+
+    // Base row
+    const baseP = state.size === 'large' ? state.lrgPrice : state.regPrice;
+    addSummaryItem(items, `${state.baseLabel} (${state.size === 'large' ? 'Large' : 'Regular'})`, baseP);
+
+    // Protein
+    if (state.protein) addSummaryItem(items, state.protein, state.proteinCost);
+
+    // Toppings
+    Object.entries(state.toppings).forEach(([n, c]) => addSummaryItem(items, n, c));
+
+    // Total
+    const t = getTotal();
+    total.textContent = fmt(t);
+    total.classList.remove('bump');
+    void total.offsetWidth;
+    total.classList.add('bump');
+  }
+
+  function addSummaryItem(parent, name, cost) {
+    const li = document.createElement('li');
+    li.className = 'summary-item';
+    li.innerHTML = `<span class="summary-item-name">${name}</span><span class="summary-item-price">${cost > 0 ? '+' + cost.toLocaleString() : fmt(cost)}</span>`;
+    parent.appendChild(li);
+  }
+
+  function selectBase(type, reg, lrg, el) {
+    state.base = type; state.regPrice = reg; state.lrgPrice = lrg;
+    const emojis = { salad: '🥗', rice: '🍚', pasta: '🍝' };
+    const labels = { salad: 'Salad Bowl', rice: 'Rice Bowl', pasta: 'Pasta Bowl' };
+    state.baseEmoji = emojis[type]; state.baseLabel = labels[type];
+    document.querySelectorAll('.base-card').forEach(c => c.classList.remove('selected'));
+    el.classList.add('selected');
+    document.getElementById('price-reg').textContent = fmt(reg);
+    document.getElementById('price-lrg').textContent = fmt(lrg);
+    // activate step 2
+    document.getElementById('step2').classList.add('active');
+    document.getElementById('step3').classList.add('active');
+    document.getElementById('step4').classList.add('active');
+    updateSummary();
+  }
+
+  function selectSize(size, el) {
+    state.size = size;
+    document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('selected'));
+    el.classList.add('selected');
+    updateSummary();
+  }
+
+  function selectProtein(name, cost, el) {
+    if (el.classList.contains('selected')) {
+      el.classList.remove('selected');
+      state.protein = null; state.proteinCost = 0;
+    } else {
+      document.querySelectorAll('#protein-chips .chip').forEach(c => c.classList.remove('selected'));
+      el.classList.add('selected');
+      state.protein = name; state.proteinCost = cost;
+    }
+    updateSummary();
+  }
+
+  function toggleTopping(name, cost, el) {
+    if (el.classList.contains('selected')) {
+      el.classList.remove('selected');
+      delete state.toppings[name];
+    } else {
+      el.classList.add('selected');
+      state.toppings[name] = cost;
+    }
+    updateSummary();
+  }
+
+  /* ── BOWL GAME ── */
+  const gState = {
+    step: 1,
+    base: null, baseEmoji: '🥣', baseLabel: '',
+    regPrice: 0, lrgPrice: 0,
+    size: 'regular',
+    protein: null, proteinCost: 0,
+    toppings: {},
+  };
+
+  function gFmt(n) { return 'RWF ' + n.toLocaleString(); }
+
+  function gGetTotal() {
+    const bp = gState.size === 'large' ? gState.lrgPrice : gState.regPrice;
+    const pp = gState.proteinCost;
+    const tp = Object.values(gState.toppings).reduce((a,b) => a+b, 0);
+    return bp + pp + tp;
+  }
+
+  function gUpdatePrice() {
+    const el = document.getElementById('bg-price');
+    const t = gGetTotal();
+    el.textContent = gFmt(t);
+    el.classList.remove('bump');
+    void el.offsetWidth;
+    el.classList.add('bump');
+  }
+
+  function gUpdateDots(step) {
+    document.querySelectorAll('.bg-dot').forEach(dot => {
+      const n = parseInt(dot.dataset.dot);
+      dot.className = 'bg-dot ' + (n < step ? 'done' : n === step ? 'active' : 'upcoming');
+    });
+    document.getElementById('bg-back-btn').style.visibility = step <= 1 ? 'hidden' : 'visible';
+  }
+
+  function gameGoToStep(next) {
+    const cur = gState.step;
+    const curEl = document.getElementById('bg-step-' + cur);
+    const nextEl = document.getElementById('bg-step-' + next);
+    if (!nextEl) return;
+
+    const forward = next > cur;
+
+    // Exit current step using inline transform (avoids CSS-class bounce back)
+    curEl.style.transition = ''; // ensure transitions are on
+    curEl.classList.remove('active');
+    curEl.style.transform = forward ? 'translateX(-110%)' : 'translateX(110%)';
+
+    // Set next step starting position without transition
+    nextEl.style.transition = 'none';
+    nextEl.classList.remove('active');
+    nextEl.style.transform = forward ? 'translateX(110%)' : 'translateX(-110%)';
+    void nextEl.offsetWidth; // force reflow
+
+    // Animate next step in
+    nextEl.style.transition = '';
+    nextEl.classList.add('active');
+    nextEl.style.transform = ''; // CSS active: translateX(0) takes over
+
+    gState.step = next;
+    gUpdateDots(next);
+    gUpdateActions(next);
+
+    if (next === 5) gBuildSummary();
+  }
+
+  function gUpdateActions(step) {
+    const el = document.getElementById('bg-game-actions');
+    if (step === 3) {
+      const hasProtein = !!gState.protein;
+      el.innerHTML = `
+        <button class="bg-btn-skip" onclick="gameGoToStep(4)">Skip →</button>
+        <button class="bg-btn-next" id="bg-protein-next" ${hasProtein ? '' : 'disabled'} onclick="gameGoToStep(4)">Continue →</button>`;
+    } else if (step === 4) {
+      el.innerHTML = `<button class="bg-btn-next" style="flex:1" onclick="gameGoToStep(5)">Done building →</button>`;
+    } else {
+      el.innerHTML = '';
+    }
+  }
+
+  function gameGoBack() {
+    if (gState.step > 1) gameGoToStep(gState.step - 1);
+  }
+
+  function gameSelectBase(type, reg, lrg, emoji, label, el) {
+    gState.base = type; gState.regPrice = reg; gState.lrgPrice = lrg;
+    gState.baseEmoji = emoji; gState.baseLabel = label;
+    document.querySelectorAll('.bg-base-card').forEach(c => c.classList.remove('selected','bounce'));
+    el.classList.add('selected','bounce');
+    document.getElementById('bg-size-reg-price').textContent = gFmt(reg);
+    document.getElementById('bg-size-lrg-price').textContent = gFmt(lrg);
+    gUpdatePrice();
+    setTimeout(() => gameGoToStep(2), 350);
+  }
+
+  function gameSelectSize(size, el) {
+    gState.size = size;
+    document.querySelectorAll('.bg-size-card').forEach(c => c.classList.remove('selected','bounce'));
+    el.classList.add('selected','bounce');
+    gUpdatePrice();
+    setTimeout(() => gameGoToStep(3), 350);
+  }
+
+  function gameSelectProtein(name, cost, el) {
+    if (el.classList.contains('selected')) {
+      el.classList.remove('selected');
+      gState.protein = null; gState.proteinCost = 0;
+    } else {
+      document.querySelectorAll('#bg-protein-grid .bg-chip').forEach(c => c.classList.remove('selected'));
+      el.classList.add('selected');
+      gState.protein = name; gState.proteinCost = cost;
+    }
+    gUpdatePrice();
+    gUpdateActions(3);
+  }
+
+  function gameToggleTopping(name, cost, el) {
+    if (el.classList.contains('selected')) {
+      el.classList.remove('selected');
+      delete gState.toppings[name];
+    } else {
+      el.classList.add('selected');
+      gState.toppings[name] = cost;
+    }
+    gUpdatePrice();
+  }
+
+  function gBuildSummary() {
+    const list = document.getElementById('bg-summary-list');
+    const totalEl = document.getElementById('bg-summary-total');
+    const bowlEl = document.getElementById('bg-summary-bowl');
+    list.innerHTML = '';
+    const bgs = {
+      salad: 'linear-gradient(135deg,#2D6A4F 0%,#52B788 100%)',
+      rice:  'linear-gradient(135deg,#1B4332 0%,#40916C 100%)',
+      pasta: 'linear-gradient(135deg,#3D405B 0%,#81B29A 100%)',
+    };
+    bowlEl.style.background = bgs[gState.base] || bgs.salad;
+    bowlEl.textContent = gState.baseEmoji;
+
+    const baseP = gState.size === 'large' ? gState.lrgPrice : gState.regPrice;
+    gAddRow(list, `${gState.baseLabel} (${gState.size === 'large' ? 'Large 1300ml' : 'Regular 1000ml'})`, baseP, true);
+    if (gState.protein) gAddRow(list, '🍗 ' + gState.protein, gState.proteinCost);
+    Object.entries(gState.toppings).forEach(([n,c]) => gAddRow(list, n, c));
+
+    totalEl.textContent = gFmt(gGetTotal());
+  }
+
+  function gAddRow(parent, name, cost, isBase) {
+    const li = document.createElement('li');
+    li.className = 'bg-summary-row';
+    li.innerHTML = `<span class="bg-summary-row-name">${name}</span><span class="bg-summary-row-price">${isBase ? gFmt(cost) : '+' + cost.toLocaleString()}</span>`;
+    parent.appendChild(li);
+  }
+
+  function gameOpenOrder() {
+    let msg = `Hi BOWLÉ! 🥣 I'd like to order:\n\n`;
+    const baseP = gState.size === 'large' ? gState.lrgPrice : gState.regPrice;
+    msg += `📦 ${gState.baseLabel} (${gState.size === 'large' ? 'Large 1300ml' : 'Regular 1000ml'}) — ${gFmt(baseP)}\n`;
+    if (gState.protein) msg += `🍗 Protein: ${gState.protein} — +${gState.proteinCost.toLocaleString()}\n`;
+    const tops = Object.entries(gState.toppings);
+    if (tops.length > 0) msg += `🥗 Toppings: ${tops.map(([n]) => n).join(', ')}\n`;
+    msg += `\n💰 Total: ${gFmt(gGetTotal())}\n\nThank you!`;
+    window.open('https://www.instagram.com/bowle.rw/', '_blank');
+  }
+
+  function openBowlGame(preselectedBase) {
+    const game = document.getElementById('bowl-game');
+    // Reset state
+    Object.assign(gState, { step:1, base:null, baseEmoji:'🥣', baseLabel:'', regPrice:0, lrgPrice:0, size:'regular', protein:null, proteinCost:0, toppings:{} });
+    document.querySelectorAll('.bg-base-card,.bg-size-card,.bg-chip').forEach(c => c.classList.remove('selected','bounce'));
+    document.getElementById('bg-price').textContent = 'RWF 0';
+    // Reset steps (disable transitions first to avoid animate-back)
+    for (let i=1;i<=5;i++) {
+      const s = document.getElementById('bg-step-'+i);
+      s.style.transition = 'none';
+      s.classList.remove('active');
+      s.style.transform = i===1 ? 'translateX(0)' : 'translateX(110%)';
+    }
+    document.getElementById('bg-step-1').classList.add('active');
+    // Re-enable transitions after paint
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      for (let i=1;i<=5;i++) document.getElementById('bg-step-'+i).style.transition = '';
+    }));
+    gState.step = 1;
+    gUpdateDots(1);
+    gUpdateActions(1);
+    game.classList.add('visible');
+    void game.offsetWidth;
+    game.classList.add('open');
+    document.body.style.overflow = 'hidden';
+
+    if (preselectedBase) {
+      const p = { salad:[6000,8000,'🥗','Salad Bowl'], rice:[6500,9500,'🍚','Rice Bowl'], pasta:[6500,9500,'🍝','Pasta Bowl'] };
+      const d = p[preselectedBase]; if (!d) return;
+      setTimeout(() => {
+        const card = document.querySelector(`.bg-base-card[onclick*="${preselectedBase}"]`);
+        if (card) gameSelectBase(preselectedBase, d[0], d[1], d[2], d[3], card);
+      }, 420);
+    }
+  }
+
+  function closeBowlGame() {
+    const game = document.getElementById('bowl-game');
+    game.classList.remove('open');
+    document.body.style.overflow = '';
+    setTimeout(() => game.classList.remove('visible'), 500);
+  }
+
+  function heroBuilderClick(e) {
+    if (window.innerWidth <= 768) {
+      e.preventDefault();
+      openBowlGame();
+    }
+  }
+
+  function openOrder(e) {
+    e.preventDefault();
+    if (!state.base) return;
+    const baseP = state.size === 'large' ? state.lrgPrice : state.regPrice;
+    let msg = `Hi BOWLÉ! 🥣 I'd like to order:\n\n`;
+    msg += `📦 ${state.baseLabel} (${state.size === 'large' ? 'Large 1300ml' : 'Regular 1000ml'}) — ${fmt(baseP)}\n`;
+    if (state.protein) msg += `🍗 Protein: ${state.protein} — +${state.proteinCost.toLocaleString()}\n`;
+    const tops = Object.entries(state.toppings);
+    if (tops.length > 0) {
+      msg += `🥗 Toppings: ${tops.map(([n]) => n).join(', ')}\n`;
+    }
+    msg += `\n💰 Total: ${fmt(getTotal())}\n\nThank you!`;
+    window.open('https://www.instagram.com/bowle.rw/', '_blank');
+  }
+</script>
+</body>
+</html>
